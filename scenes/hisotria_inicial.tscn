@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://c4ylu4h8w0h6q"]
+
+[ext_resource type="Script" uid="uid://bommtmn614y62" path="res://scripts/hisotria_inicial.gd" id="1_6me08"]
+[ext_resource type="Texture2D" uid="uid://cd4ox287ds2er" path="res://assets/INTRO_2.png" id="1_bf4at"]
+[ext_resource type="Texture2D" uid="uid://hg3aiv5fhfs3" path="res://assets/INTRO_1.png" id="2_6me08"]
+[ext_resource type="Texture2D" uid="uid://bv2pf20a8etnc" path="res://assets/INTRO_3.png" id="3_gkl7e"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kmedt"]
+animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": ExtResource("1_bf4at")
+}, {
+"duration": 20.0,
+"texture": ExtResource("2_6me08")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gkl7e")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 0.1
+}]
+
+[node name="HisotriaInicial" type="Control" unique_id=2109935746]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6me08")
+
+[node name="Container" type="BoxContainer" parent="." unique_id=493628890]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Container" unique_id=1833703460]
+auto_translate_mode = 2
+position = Vector2(577, 328.5)
+scale = Vector2(0.7447917, 0.6227996)
+sprite_frames = SubResource("SpriteFrames_kmedt")
+frame_progress = 0.64748263
+
+[node name="BotonSiguiente" type="Button" parent="Container" unique_id=82545827]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+text = "SIGUIENTE"
