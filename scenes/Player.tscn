@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://wqlbqbbbwlll"]
+[gd_scene format=3 uid="uid://wqlbqbbbwlll"]
 
 [ext_resource type="Script" uid="uid://6ckxq1jepiqd" path="res://scripts/player.gd" id="1_kpjcp"]
 [ext_resource type="Texture2D" uid="uid://clx2l0vg8i7ns" path="res://assets/PlayerIdleTemplate.png" id="1_xhfnw"]
-[ext_resource type="Script" path="res://scripts/abilities/dash_ability.gd" id="3_dash"]
-[ext_resource type="Script" path="res://scripts/abilities/shoot_ability.gd" id="4_shoot"]
-[ext_resource type="PackedScene" path="res://scenes/projectiles/Bullet.tscn" id="5_bullet"]
+[ext_resource type="Script" uid="uid://bov7l65fe8l31" path="res://scripts/abilities/dash_ability.gd" id="3_dash"]
+[ext_resource type="Script" uid="uid://cohpt2n14i5vm" path="res://scripts/abilities/shoot_ability.gd" id="4_shoot"]
+[ext_resource type="PackedScene" uid="uid://c400dfm1uha8b" path="res://scenes/projectiles/Bullet.tscn" id="5_bullet"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kpjcp"]
 atlas = ExtResource("1_xhfnw")
@@ -38,13 +38,18 @@ shape = SubResource("CapsuleShape2D_o5u46")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=520147163]
 
-[node name="ShootOrigin" type="Marker2D" parent="."]
+[node name="ShootOrigin" type="Marker2D" parent="." unique_id=1969359081]
 position = Vector2(40, 0)
 
-[node name="DashAbility" type="Node" parent="."]
+[node name="DashAbility" type="Node" parent="." unique_id=1968907632]
 script = ExtResource("3_dash")
 
-[node name="ShootAbility" type="Node" parent="."]
+[node name="ShootAbility" type="Node" parent="." unique_id=969816156]
 script = ExtResource("4_shoot")
 bullet_scene = ExtResource("5_bullet")
 
+[node name="ReloadBar" type="ProgressBar" parent="." unique_id=236536731]
+offset_left = -42.0
+offset_top = 97.0
+offset_right = 58.0
+offset_bottom = 124.0

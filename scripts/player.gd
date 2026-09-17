@@ -7,13 +7,14 @@ extends CharacterBody2D
 
 # --- Configuración ---
 ## Velocidad base de movimiento (px/s).
-const SPEED := 300.0
+const SPEED := 500.0
 
 # --- Estado público (leído por habilidades) ---
 ## Dirección de input actual (normalizada). Vector2.ZERO si no hay input.
 var input_direction: Vector2 = Vector2.ZERO
 ## Última dirección de movimiento válida. Útil para el dash sin input activo.
 var last_direction: Vector2 = Vector2.RIGHT
+
 
 
 func _physics_process(_delta: float) -> void:
