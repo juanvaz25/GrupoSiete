@@ -22,8 +22,8 @@ grow_vertical = 2
 color = Color(0.8666667, 0.92941177, 0.5137255, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="ColorRect" unique_id=1558964641]
-position = Vector2(588, 188)
-scale = Vector2(0.3, 0.3)
+position = Vector2(243.00002, 83.000015)
+scale = Vector2(0.13759865, 0.14210825)
 texture = ExtResource("1_yqeox")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1379257971]
