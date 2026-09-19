@@ -8,11 +8,11 @@
 [sub_resource type="SpriteFrames" id="SpriteFrames_kmedt"]
 animations = [{
 "frames": [{
-"duration": 2.0,
-"texture": ExtResource("1_bf4at")
-}, {
 "duration": 20.0,
 "texture": ExtResource("2_6me08")
+}, {
+"duration": 2.0,
+"texture": ExtResource("1_bf4at")
 }, {
 "duration": 1.0,
 "texture": ExtResource("3_gkl7e")
