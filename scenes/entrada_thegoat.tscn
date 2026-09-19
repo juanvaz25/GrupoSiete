@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b3vv33nltf17v"]
+
+[ext_resource type="PackedScene" uid="uid://c4ylu4h8w0h6q" path="res://scenes/hisotria_inicial.tscn" id="1_fkl8k"]
+
+[node name="EntradaThegoat" type="Node2D" unique_id=854120107]
+
+[node name="HisotriaInicial" parent="." unique_id=2109935746 instance=ExtResource("1_fkl8k")]
+
+[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="HisotriaInicial" unique_id=1981046931]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BotonSiguiente2" type="Button" parent="HisotriaInicial" unique_id=1972474554]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 10
+size_flags_vertical = 8
+text = "SIGUIENTE"

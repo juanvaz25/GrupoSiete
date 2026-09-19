@@ -1,24 +1,26 @@
 extends Control
 
-@onready var viñetas: AnimatedSprite2D = $Container/AnimatedSprite2D
-@onready var boton: Button = $Container/BotonSiguiente
-
-var frame_actual: int = 0
+@onready var video: VideoStreamPlayer = $VideoStreamPlayer
+@onready var boton: Button = $BotonSiguiente
 
 
 func _ready() -> void:
-	viñetas.stop()
-	viñetas.frame = frame_actual
+	# Reproducimos el video al entrar en la escena
+	video.play()
 
+	# Conectamos el botón
 	boton.pressed.connect(_siguiente)
+
+	# Cuando termina el video, pasamos automáticamente a la siguiente escena
+	video.finished.connect(_video_terminado)
 
 
 func _siguiente() -> void:
-	# Si todavía hay viñetas para mostrar
-	if frame_actual < 2:
-		frame_actual += 1
-		viñetas.frame = frame_actual
+	# Si el jugador presiona el botón, salta la cinemática
+	video.stop()
+	get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
 
-	# Si llegamos a la última, cambiamos de escena
-	else:
-		get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
+
+func _video_terminado() -> void:
+	# Cuando termina el video automáticamente
+	get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")

@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://bov7l65fe8l31" path="res://scripts/abilities/dash_ability.gd" id="3_dash"]
 [ext_resource type="Script" uid="uid://cohpt2n14i5vm" path="res://scripts/abilities/shoot_ability.gd" id="4_shoot"]
 [ext_resource type="PackedScene" uid="uid://c400dfm1uha8b" path="res://scenes/projectiles/Bullet.tscn" id="5_bullet"]
-[ext_resource type="Script" path="res://scripts/abilities/rifle_ability.gd" id="6_rifle"]
-[ext_resource type="Script" path="res://scripts/ui/health_hud.gd" id="7_hud"]
+[ext_resource type="Script" uid="uid://b71r5s11rhctr" path="res://scripts/abilities/rifle_ability.gd" id="6_rifle"]
+[ext_resource type="Script" uid="uid://dcrn3oldjmbqy" path="res://scripts/ui/health_hud.gd" id="7_hud"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kpjcp"]
 atlas = ExtResource("1_xhfnw")
@@ -33,7 +33,6 @@ height = 162.0
 
 [node name="Player" type="CharacterBody2D" unique_id=318955597]
 collision_layer = 16
-collision_mask = 1
 script = ExtResource("1_kpjcp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1125128880]
@@ -44,11 +43,11 @@ animation = &"Idle"
 position = Vector2(10, 2)
 shape = SubResource("CapsuleShape2D_o5u46")
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=559156980]
 collision_layer = 0
 collision_mask = 8
 
-[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox"]
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1224537088]
 position = Vector2(10, 2)
 shape = SubResource("CapsuleShape2D_hurt")
 
@@ -64,7 +63,7 @@ script = ExtResource("3_dash")
 script = ExtResource("4_shoot")
 bullet_scene = ExtResource("5_bullet")
 
-[node name="RifleAbility" type="Node" parent="."]
+[node name="RifleAbility" type="Node" parent="." unique_id=1403605865]
 script = ExtResource("6_rifle")
 
 [node name="ReloadBar" type="ProgressBar" parent="." unique_id=236536731]
@@ -73,5 +72,5 @@ offset_top = 97.0
 offset_right = 58.0
 offset_bottom = 124.0
 
-[node name="HealthHUD" type="CanvasLayer" parent="."]
+[node name="HealthHUD" type="CanvasLayer" parent="." unique_id=274213478]
 script = ExtResource("7_hud")
