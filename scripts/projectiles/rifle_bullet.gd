@@ -1,91 +1,111 @@
-## Rifle bullet projectile script.
+## High-power rifle bullet projectile script.
 ##
-## Proyectil de alta potencia que inflige 10 de daño y aturde a los objetivos impactados.
+## Deals 10 damage and applies stun effect to enemies.
+## Flies until hitting a wall/enemy or when the 15-second safety lifetime expires.
+## Ignores level triggers and boss room doors.
 extends Area2D
 
 # --- Configuración ---
 ## Daño infligido por el disparo de rifle.
 @export var damage: float = 10.0
-## Duración del aturdimiento en segundos.
-@export var stun_duration: float = 2.0
 ## Velocidad del proyectil (px/s).
 @export var speed: float = 2000.0
-## Distancia máxima antes de autodestruirse (px).
-@export var max_range: float = 1400.0
+## Duración del aturdimiento aplicado al enemigo (segundos).
+@export var stun_duration: float = 2.0
+## Tiempo de vida máximo en segundos antes de desaparecer si no colisionó.
+@export var lifetime: float = 15.0
 
 # --- Estado ---
-## Dirección de movimiento. Debe asignarse antes de agregar la bala al árbol.
+## Dirección de movimiento.
 var direction: Vector2 = Vector2.RIGHT
 
-var _distance_traveled: float = 0.0
+var _time_alive: float = 0.0
 
 
 func _ready() -> void:
+	# Rotar para apuntar en la dirección de movimiento
 	rotation = direction.angle()
-	body_entered.connect(_on_hit_target)
-	area_entered.connect(_on_hit_target)
+
+	# Reproducir animación si tiene AnimatedSprite2D
+	if has_node("AnimatedSprite2D"):
+		var anim: AnimatedSprite2D = get_node("AnimatedSprite2D")
+		anim.play("default")
+
+	# Conectar señales de colisión
+	body_entered.connect(_on_body_entered)
+	area_entered.connect(_on_area_entered)
 
 
 func _physics_process(delta: float) -> void:
-	var movement: Vector2 = direction * speed * delta
-	position += movement
-	_distance_traveled += movement.length()
+	position += direction * speed * delta
+	_time_alive += delta
 
-	if _distance_traveled >= max_range:
+	# Destruir tras 15 segundos si no impactó nada
+	if _time_alive >= lifetime:
 		queue_free()
 
 
-## Manejar impacto con un enemigo o superficie.
-func _on_hit_target(target: Node2D) -> void:
-	if target == null:
+## Impacto con cuerpos físicos (Paredes, TileMaps, Cuerpos de enemigos)
+func _on_body_entered(body: Node2D) -> void:
+	if body == null:
 		return
-	if target.name == "Player" or target.is_in_group("player") or (target.get_parent() != null and target.get_parent().name == "Player"):
+	if _is_player_node(body):
 		return
 
-	# Aplicar daño y aturdimiento al objetivo directo o a su nodo padre
-	var entity: Node2D = target
-	if not entity.has_method("take_damage") and entity.get_parent() and entity.get_parent().has_method("take_damage"):
-		entity = entity.get_parent()
+	# Aplicar daño y aturdimiento
+	_apply_damage_and_stun(body)
 
-	if entity.has_method("take_damage"):
-		entity.take_damage(damage)
-
-	if entity.has_method("apply_stun"):
-		entity.apply_stun(stun_duration)
-	elif entity.get("is_stunned") != null:
-		entity.set("is_stunned", true)
-		# Crear un timer para retirar el aturdimiento si la entidad no maneja su propio timer
-		var timer := entity.get_tree().create_timer(stun_duration)
-		timer.timeout.connect(func(): if is_instance_valid(entity): entity.set("is_stunned", false))
-
-	_spawn_stun_effect(global_position)
+	# Crear efecto visual de impacto y destruir la bala
+	_spawn_impact_effect()
 	queue_free()
 
 
-## Crea un efecto visual de impacto y aturdimiento
-func _spawn_stun_effect(pos: Vector2) -> void:
-	var effect_node := Node2D.new()
-	effect_node.global_position = pos
-	
-	# Efecto visual programático tipo flash y ondas de aturdimiento
-	var circle := Line2D.new()
-	circle.width = 3.0
-	circle.default_color = Color(1.0, 0.85, 0.2, 0.9) # Amarillo electrizante
-	
-	var points: PackedVector2Array = []
-	var segments := 16
-	var radius := 18.0
-	for i in range(segments + 1):
-		var angle := i * (TAU / segments)
-		points.append(Vector2(cos(angle), sin(angle)) * radius)
-	circle.points = points
-	effect_node.add_child(circle)
+## Impacto con áreas (Hurtboxes de enemigos o Dummies)
+func _on_area_entered(area: Area2D) -> void:
+	if area == null:
+		return
+	if _is_player_node(area):
+		return
 
-	get_tree().current_scene.add_child(effect_node)
+	# Solo reaccionar si el área o su padre es un objetivo de daño
+	var target_hit := false
+	if area.has_method("take_damage") or (area.get_parent() and area.get_parent().has_method("take_damage")):
+		_apply_damage_and_stun(area)
+		target_hit = true
+	elif area.is_in_group("enemy") or area.is_in_group("dummy") or area.is_in_group("hurtbox"):
+		_apply_damage_and_stun(area)
+		target_hit = true
 
-	var tween := effect_node.create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(effect_node, "scale", Vector2(2.5, 2.5), 0.35)
-	tween.tween_property(circle, "modulate:a", 0.0, 0.35)
-	tween.set_parallel(false)
-	tween.tween_callback(effect_node.queue_free)
+	# Si es una puerta o trigger de nivel, ignorar y atravesar sin destruirse
+	if target_hit:
+		_spawn_impact_effect()
+		queue_free()
+
+
+func _apply_damage_and_stun(target: Node) -> void:
+	var damage_receiver: Node = target
+	if not damage_receiver.has_method("take_damage") and target.get_parent() != null and target.get_parent().has_method("take_damage"):
+		damage_receiver = target.get_parent()
+
+	if damage_receiver.has_method("take_damage"):
+		damage_receiver.take_damage(damage)
+
+	# Aplicar aturdimiento si el objetivo lo soporta
+	if damage_receiver.has_method("apply_stun"):
+		damage_receiver.apply_stun(stun_duration)
+	elif damage_receiver.has_method("stun"):
+		damage_receiver.stun(stun_duration)
+
+
+func _spawn_impact_effect() -> void:
+	pass
+
+
+func _is_player_node(node: Node) -> bool:
+	if node == null:
+		return false
+	if node.name == "Player" or node.is_in_group("player"):
+		return true
+	if node.get_parent() != null and (node.get_parent().name == "Player" or node.get_parent().is_in_group("player")):
+		return true
+	return false

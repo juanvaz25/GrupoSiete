@@ -1,26 +1,66 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://df58l7e2m0v3"]
 
-[ext_resource type="Script" path="res://scripts/projectiles/rifle_bullet.gd" id="1_rifle_bullet"]
-[ext_resource type="Texture2D" uid="uid://cdx58yhjtscv4" path="res://assets/Bullet.png" id="2_sprite"]
+[ext_resource type="Script" uid="uid://3l3062hjbdyg" path="res://scripts/projectiles/rifle_bullet.gd" id="1_rifle_bullet"]
+[ext_resource type="Texture2D" uid="uid://cooxtuc5nsujv" path="res://assets/AssetsBullets/disparo2.png" id="2_cnbv1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sg8fd"]
+atlas = ExtResource("2_cnbv1")
+region = Rect2(0, 0, 318, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4clx"]
+atlas = ExtResource("2_cnbv1")
+region = Rect2(0, 97, 318, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ugeq"]
+atlas = ExtResource("2_cnbv1")
+region = Rect2(0, 194, 318, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o36je"]
+atlas = ExtResource("2_cnbv1")
+region = Rect2(0, 291, 318, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3e5p"]
+atlas = ExtResource("2_cnbv1")
+region = Rect2(0, 388, 318, 97)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vlew8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sg8fd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4clx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ugeq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o36je")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3e5p")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rifle"]
 radius = 6.0
 height = 28.0
 
-[node name="RifleBullet" type="Area2D"]
+[node name="RifleBullet" type="Area2D" unique_id=462051113]
+z_index = 1
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_rifle_bullet")
-damage = 10.0
-stun_duration = 2.0
-speed = 2000.0
-max_range = 1400.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=423851259]
 modulate = Color(1, 0.843137, 0.2, 1)
 scale = Vector2(1.8, 1.2)
-texture = ExtResource("2_sprite")
+sprite_frames = SubResource("SpriteFrames_vlew8")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=163419400]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_rifle")

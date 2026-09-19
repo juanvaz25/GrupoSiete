@@ -1,5 +1,5 @@
 ## Rifle ability script for the player character.
-## Disparo de rifle de alta potencia con cooldown y aturdimiento.
+## Disparo de rifle de alta potencia (10 DMG + Aturdimiento) con cooldown e indicador visual.
 extends Node
 
 # --- Configuración ---
@@ -10,6 +10,7 @@ extends Node
 # --- Señales ---
 signal rifle_shot_fired
 signal rifle_cooldown_started(duration: float)
+signal rifle_cooldown_progress(progress: float)
 signal rifle_ready
 
 # --- Estado interno ---
@@ -17,10 +18,17 @@ var _can_shoot: bool = true
 
 @onready var _cooldown_timer: Timer = Timer.new()
 @onready var _player: CharacterBody2D = get_parent()
-@onready var _shoot_origin: Marker2D = _player.get_node("ShootOrigin")
+@onready var _shoot_origin: Marker2D = _player.get_node_or_null("ShootOrigin")
+@onready var _rifle_bar: ProgressBar = _player.get_node_or_null("RifleBar")
 
 
 func _ready() -> void:
+	if _rifle_bar:
+		_rifle_bar.min_value = 0.0
+		_rifle_bar.max_value = 100.0
+		_rifle_bar.value = 100.0
+		_rifle_bar.visible = false
+
 	_cooldown_timer.one_shot = true
 	_cooldown_timer.wait_time = cooldown
 	_cooldown_timer.timeout.connect(_on_cooldown_timeout)
@@ -44,15 +52,18 @@ func _shoot() -> void:
 	_cooldown_timer.start()
 	rifle_cooldown_started.emit(cooldown)
 
+	if _rifle_bar:
+		_rifle_bar.value = 0.0
+		_rifle_bar.visible = true
+
 	# Dirección hacia el mouse
 	var mouse_pos: Vector2 = _player.get_global_mouse_position()
-	var direction: Vector2 = (
-		mouse_pos - _shoot_origin.global_position
-	).normalized()
+	var origin_pos: Vector2 = _shoot_origin.global_position if _shoot_origin else _player.global_position
+	var direction: Vector2 = (mouse_pos - origin_pos).normalized()
 
 	# Instanciar bala de rifle
 	var bullet: Node2D = rifle_bullet_scene.instantiate()
-	bullet.global_position = _shoot_origin.global_position
+	bullet.global_position = origin_pos
 	bullet.direction = direction
 
 	# Agregar al árbol
@@ -63,10 +74,23 @@ func _shoot() -> void:
 		_player.velocity -= direction * recoil_strength
 
 	rifle_shot_fired.emit()
-	print("Disparo de Rifle efectuado (10 DMG + Stun). Cooldown de ", cooldown, "s iniciado.")
 
 
 func _on_cooldown_timeout() -> void:
 	_can_shoot = true
+	if _rifle_bar:
+		_rifle_bar.value = 100.0
+		_rifle_bar.visible = false
 	rifle_ready.emit()
-	print("Rifle listo para disparar.")
+
+
+func _process(_delta: float) -> void:
+	if not _can_shoot:
+		var progress: float = 1.0 - (_cooldown_timer.time_left / cooldown)
+		rifle_cooldown_progress.emit(progress)
+		if _rifle_bar:
+			_rifle_bar.value = progress * 100.0
+			_rifle_bar.visible = true
+	else:
+		if _rifle_bar and _rifle_bar.visible:
+			_rifle_bar.visible = false
