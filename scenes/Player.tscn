@@ -31,7 +31,36 @@ height = 160.0
 radius = 26.0
 height = 162.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reload_bg"]
+bg_color = Color(0.12, 0.12, 0.14, 0.75)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reload_fg"]
+bg_color = Color(0.95, 0.6, 0.15, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rifle_bg"]
+bg_color = Color(0.12, 0.12, 0.14, 0.75)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rifle_fg"]
+bg_color = Color(0.2, 0.75, 0.95, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
 [node name="Player" type="CharacterBody2D" unique_id=318955597]
+z_index = 1
 collision_layer = 16
 script = ExtResource("1_kpjcp")
 
@@ -61,16 +90,29 @@ script = ExtResource("3_dash")
 
 [node name="ShootAbility" type="Node" parent="." unique_id=969816156]
 script = ExtResource("4_shoot")
-bullet_scene = ExtResource("5_bullet")
 
 [node name="RifleAbility" type="Node" parent="." unique_id=1403605865]
 script = ExtResource("6_rifle")
 
 [node name="ReloadBar" type="ProgressBar" parent="." unique_id=236536731]
-offset_left = -42.0
-offset_top = 97.0
-offset_right = 58.0
-offset_bottom = 124.0
+visible = false
+offset_left = -40.0
+offset_top = 88.0
+offset_right = 60.0
+offset_bottom = 100.0
+theme_override_styles/background = SubResource("StyleBoxFlat_reload_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_reload_fg")
+show_percentage = false
+
+[node name="RifleBar" type="ProgressBar" parent="." unique_id=1746143445]
+visible = false
+offset_left = -40.0
+offset_top = 104.0
+offset_right = 60.0
+offset_bottom = 116.0
+theme_override_styles/background = SubResource("StyleBoxFlat_rifle_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rifle_fg")
+show_percentage = false
 
 [node name="HealthHUD" type="CanvasLayer" parent="." unique_id=274213478]
 script = ExtResource("7_hud")

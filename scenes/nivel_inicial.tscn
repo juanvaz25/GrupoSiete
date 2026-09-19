@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://d31a6ain055qb" path="res://scripts/entrada_lobison.gd" id="6_0xjlk"]
 [ext_resource type="Texture2D" uid="uid://dgd6upxc75u6g" path="res://assets/AssetsBiblioteca/NUEVO.png" id="6_i13yi"]
 [ext_resource type="Script" uid="uid://dka23o8kb5wbw" path="res://scripts/entrada_basilisco.gd" id="7_5cr60"]
+[ext_resource type="PackedScene" uid="uid://c8m5y3e1k0l9" path="res://scenes/dummy/target_dummy.tscn" id="8_dummy"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_kmedt"]
 a = Vector2(1490, 627)
@@ -13512,3 +13513,10 @@ tile_set = SubResource("TileSet_npyas")
 [node name="Capa3" type="TileMapLayer" parent="Node" unique_id=1306153209]
 tile_map_data = PackedByteArray("AADX//j/AAAdAC8AAADX//n/AAAdADAAAADX//r/AAAdADEAAADY//j/AAAeAC8AAADY//n/AAAeADAAAADY//r/AAAeADEAAADZ//j/AAAfAC8AAADZ//n/AAAfADAAAADZ//r/AAAfADEAAADZ//v/AAAfADIAAADa//j/AAAgAC8AAADa//n/AAAgADAAAADa//r/AAAgADEAAADa//v/AAAgADIAAADb//j/AAAhAC8AAADb//n/AAAhADAAAADb//r/AAAhADEAAAD9//j/AAAdAC8AAAD9//n/AAAdADAAAAD9//r/AAAdADEAAAD+//j/AAAeAC8AAAD+//n/AAAeADAAAAD+//r/AAAeADEAAAD///j/AAAfAC8AAAD///n/AAAfADAAAAD///r/AAAfADEAAAD///v/AAAfADIAAAAAAPj/AAAgAC8AAAAAAPn/AAAgADAAAAAAAPr/AAAgADEAAAAAAPv/AAAgADIAAAABAPj/AAAhAC8AAAABAPn/AAAhADAAAAABAPr/AAAhADEAAAArAPj/AAAdAC8AAAArAPn/AAAdADAAAAArAPr/AAAdADEAAAAsAPj/AAAeAC8AAAAsAPn/AAAeADAAAAAsAPr/AAAeADEAAAAtAPj/AAAfAC8AAAAtAPn/AAAfADAAAAAtAPr/AAAfADEAAAAtAPv/AAAfADIAAAAuAPj/AAAgAC8AAAAuAPn/AAAgADAAAAAuAPr/AAAgADEAAAAuAPv/AAAgADIAAAAvAPj/AAAhAC8AAAAvAPn/AAAhADAAAAAvAPr/AAAhADEAAAA=")
 tile_set = SubResource("TileSet_i13yi")
+
+[node name="Player" parent="." instance=ExtResource("1_inmos")]
+position = Vector2(0, 0)
+
+[node name="TargetDummy" parent="." instance=ExtResource("8_dummy")]
+position = Vector2(250, 0)
+
