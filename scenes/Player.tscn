@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://clx2l0vg8i7ns" path="res://assets/PlayerIdleTemplate.png" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://bov7l65fe8l31" path="res://scripts/abilities/dash_ability.gd" id="3_dash"]
 [ext_resource type="Script" uid="uid://cohpt2n14i5vm" path="res://scripts/abilities/shoot_ability.gd" id="4_shoot"]
+[ext_resource type="PackedScene" uid="uid://c400dfm1uha8b" path="res://scenes/projectiles/Bullet.tscn" id="5_bullet"]
 [ext_resource type="Script" uid="uid://b71r5s11rhctr" path="res://scripts/abilities/rifle_ability.gd" id="6_rifle"]
 [ext_resource type="Script" uid="uid://dcrn3oldjmbqy" path="res://scripts/ui/health_hud.gd" id="7_hud"]
 
@@ -71,11 +72,11 @@ animation = &"Idle"
 position = Vector2(10, 2)
 shape = SubResource("CapsuleShape2D_o5u46")
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1198798201]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=559156980]
 collision_layer = 0
 collision_mask = 8
 
-[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=347928988]
+[node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1224537088]
 position = Vector2(10, 2)
 shape = SubResource("CapsuleShape2D_hurt")
 
@@ -90,7 +91,7 @@ script = ExtResource("3_dash")
 [node name="ShootAbility" type="Node" parent="." unique_id=969816156]
 script = ExtResource("4_shoot")
 
-[node name="RifleAbility" type="Node" parent="." unique_id=1122543937]
+[node name="RifleAbility" type="Node" parent="." unique_id=1403605865]
 script = ExtResource("6_rifle")
 
 [node name="ReloadBar" type="ProgressBar" parent="." unique_id=236536731]
@@ -113,5 +114,5 @@ theme_override_styles/background = SubResource("StyleBoxFlat_rifle_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_rifle_fg")
 show_percentage = false
 
-[node name="HealthHUD" type="CanvasLayer" parent="." unique_id=1548252683]
+[node name="HealthHUD" type="CanvasLayer" parent="." unique_id=274213478]
 script = ExtResource("7_hud")

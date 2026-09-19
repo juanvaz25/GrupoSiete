@@ -13,12 +13,12 @@ a = Vector2(1490, 627)
 b = Vector2(-1210, 615)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_o5u46"]
-a = Vector2(1495, 625)
-b = Vector2(1488, -487)
+a = Vector2(1044, 609)
+b = Vector2(1040, -379)
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_t6etm"]
-a = Vector2(1482, -485)
-b = Vector2(-1202, -476)
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_c0teq"]
+a = Vector2(714, -347)
+b = Vector2(-1244, -388)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ert3h"]
 a = Vector2(-1205, 602)
@@ -13440,7 +13440,8 @@ shape = SubResource("SegmentShape2D_kmedt")
 shape = SubResource("SegmentShape2D_o5u46")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="ColisionesDelNivel" unique_id=856083078]
-shape = SubResource("SegmentShape2D_t6etm")
+position = Vector2(211, 0)
+shape = SubResource("SegmentShape2D_c0teq")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="ColisionesDelNivel" unique_id=1031453143]
 shape = SubResource("SegmentShape2D_ert3h")
