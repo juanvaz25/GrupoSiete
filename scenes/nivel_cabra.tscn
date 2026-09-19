@@ -2808,7 +2808,6 @@ sources/0 = SubResource("TileSetAtlasSource_tpke4")
 position = Vector2(86, -186)
 
 [node name="Player" parent="." unique_id=318955597 instance=ExtResource("2_if42j")]
-z_index = 1
 position = Vector2(0, 429)
 scale = Vector2(0.61, 0.61)
 
