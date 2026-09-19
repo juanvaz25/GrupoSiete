@@ -2805,9 +2805,7 @@ sources/0 = SubResource("TileSetAtlasSource_tpke4")
 [node name="nivel_cabra" type="Node2D" unique_id=2078132402]
 
 [node name="TheGoat" parent="." unique_id=560370792 instance=ExtResource("1_wuref")]
-z_index = 1
-position = Vector2(89, -66)
-scale = Vector2(0.4, 0.4)
+position = Vector2(86, -186)
 
 [node name="Player" parent="." unique_id=318955597 instance=ExtResource("2_if42j")]
 z_index = 1
