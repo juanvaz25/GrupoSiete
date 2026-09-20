@@ -3369,3 +3369,7 @@ offset_bottom = 323.0
 text = "Enfrentarse al basilisco
 E - Para entrar
 "
+
+[node name="Player" parent="." instance=ExtResource("1_inmos")]
+position = Vector2(0, 0)
+
