@@ -29,8 +29,12 @@ var player_hit_this_charge := false
 
 @onready var hitbox: Area2D = $Hitbox
 @onready var health_bar: ProgressBar = $HealBarr
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
+		
+	sprite.play("default")
+	
 	current_health = max_health
 	
 	hitbox.monitoring = false
@@ -87,11 +91,17 @@ func start_charge() -> void:
 
 	print("🐐 ¡LA CABRA SE PREPARA PARA EMBESTIR!")
 
-	# Miramos hacia el jugador
 	charge_direction = global_position.direction_to(player.global_position)
 
-	# Esperamos antes de atacar
+	# Efecto visual de preparación
+	sprite.modulate = Color(1.0, 0.3, 0.3)
+	sprite.scale = Vector2(1.15, 1.15)
+
 	await get_tree().create_timer(charge_prepare_time).timeout
+
+	# Restaurar apariencia
+	sprite.modulate = Color.WHITE
+	sprite.scale = Vector2.ONE
 
 	start_charging()
 	
