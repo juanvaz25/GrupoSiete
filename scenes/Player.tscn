@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://clx2l0vg8i7ns" path="res://assets/PlayerIdleTemplate.png" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://bov7l65fe8l31" path="res://scripts/abilities/dash_ability.gd" id="3_dash"]
 [ext_resource type="Script" uid="uid://cohpt2n14i5vm" path="res://scripts/abilities/shoot_ability.gd" id="4_shoot"]
-[ext_resource type="PackedScene" uid="uid://c400dfm1uha8b" path="res://scenes/projectiles/Bullet.tscn" id="5_bullet"]
 [ext_resource type="Script" uid="uid://b71r5s11rhctr" path="res://scripts/abilities/rifle_ability.gd" id="6_rifle"]
 [ext_resource type="Script" uid="uid://dcrn3oldjmbqy" path="res://scripts/ui/health_hud.gd" id="7_hud"]
 
@@ -60,8 +59,8 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="Player" type="CharacterBody2D" unique_id=318955597]
-z_index = 1
-collision_layer = 16
+z_index = 3
+collision_mask = 3
 script = ExtResource("1_kpjcp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1125128880]

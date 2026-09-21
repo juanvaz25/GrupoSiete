@@ -1,42 +1,175 @@
 extends CharacterBody2D
 
-@export var speed: float = 120.0
-@export var min_wander_time: float = 1.0
-@export var max_wander_time: float = 3.0
-@export var min_idle_time: float = 0.5
-@export var max_idle_time: float = 2.0
+# =========================
+# VIDA DEL BOSS
+# =========================
 
-var move_direction: Vector2 = Vector2.ZERO
-var state_timer: float = 0.0
-var is_moving: bool = false
+
+#Variables generales
+@export var max_health: float = 100.0
+@export var speed: float = 500.0
+@export var chase_distance: float = 280.0
+
+var current_health: float
+var player: Node2D = null
+
+#Variables de enbestida
+@export var charge_speed: float = 700.0
+@export var charge_duration: float = 0.7
+@export var charge_prepare_time: float = 0.8
+@export var charge_cooldown: float = 2.0
+
+
+
+var is_charging: bool = false
+var can_attack: bool = true
+var charge_direction: Vector2 = Vector2.ZERO
+var player_hit_this_charge := false
+
+
+@onready var hitbox: Area2D = $Hitbox
+@onready var health_bar: ProgressBar = $HealBarr
 
 func _ready() -> void:
-	pick_new_state()
+	current_health = max_health
+	
+	hitbox.monitoring = false
+	
+	health_bar.max_value = max_health
+	health_bar.value = current_health
 
-func _physics_process(delta: float) -> void:
-	state_timer -= delta
-	if state_timer <= 0:
-		pick_new_state()
+	print("🐐 CABRA INICIADA")
+	print("Vida: ", current_health, "/", max_health)
 
-	if is_moving:
-		velocity = move_direction * speed
+	# Esperamos a que todos los nodos terminen su _ready()
+	await get_tree().process_frame
+
+	var players := get_tree().get_nodes_in_group("player")
+
+	if players.size() > 0:
+		player = players[0]
+		print("🎯 Player encontrado: ", player.name)
+	else:
+		print("❌ NO SE ENCONTRÓ AL PLAYER")
+
+
+#seguir al jugador
+func _physics_process(_delta: float) -> void:
+	if player == null:
+		return
+
+	if is_charging:
+		return
+
+	var distance := global_position.distance_to(player.global_position)
+
+	if distance > chase_distance:
+		var direction := global_position.direction_to(player.global_position)
+
+		velocity = direction * speed
+		move_and_slide()
 	else:
 		velocity = Vector2.ZERO
 
-	move_and_slide()
+		if can_attack:
+			print("🎯 DISTANCIA DE ATAQUE: ", distance)
+			start_charge()
 
-func pick_new_state() -> void:
-	# Alterna entre caminar y quedarse quieta
-	is_moving = !is_moving
+# =========================
+# RECIBIR DAÑO
+# =========================
+
+func start_charge() -> void:
+	if not can_attack or is_charging:
+		return
+
+	can_attack = false
+
+	print("🐐 ¡LA CABRA SE PREPARA PARA EMBESTIR!")
+
+	# Miramos hacia el jugador
+	charge_direction = global_position.direction_to(player.global_position)
+
+	# Esperamos antes de atacar
+	await get_tree().create_timer(charge_prepare_time).timeout
+
+	start_charging()
 	
-	if is_moving:
-		# Elige una dirección aleatoria normalizada en el plano 2D
-		move_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-		state_timer = randf_range(min_wander_time, max_wander_time)
+func start_charging() -> void:
+	is_charging = true
+	player_hit_this_charge = false
+	
+	print("🐐💨 ¡EMBESTIDA!")
+
+	# Activar hitbox
+	hitbox.monitoring = true
+
+	var elapsed := 0.0
+
+	while elapsed < charge_duration:
+		velocity = charge_direction * charge_speed
+		move_and_slide()
+
+		await get_tree().physics_frame
+
+		elapsed += get_physics_process_delta_time()
+
+	# Termina la embestida
+	velocity = Vector2.ZERO
+
+	# Desactivar hitbox
+	hitbox.monitoring = false
+
+	is_charging = false
+
+	print("🐐 La Cabra terminó la embestida")
+
+	await get_tree().create_timer(charge_cooldown).timeout
+
+	can_attack = true
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	if not is_charging:
+		return
+
+	if player_hit_this_charge:
+		return
+
+	if body.is_in_group("player"):
+		player_hit_this_charge = true
+
+		print("💥 ¡LA CABRA GOLPEÓ AL PLAYER!")
+
+		if body.has_method("take_damage"):
+			body.take_damage(1.0)
+
+func take_damage(amount: float) -> void:
+	current_health -= amount
+	current_health = max(current_health, 0.0)
+
+	health_bar.value = current_health
+
+	print("🐐 La Cabra recibió ", amount, " de daño")
+	print("❤️ Vida: ", current_health, "/", max_health)
+
+	if current_health <= 0:
+		die()
 		
-		# Opcional: voltear el sprite según la dirección horizontal
-		# if has_node("Sprite2D"):
-		#     $Sprite2D.flip_h = move_direction.x < 0
-	else:
-		move_direction = Vector2.ZERO
-		state_timer = randf_range(min_idle_time, max_idle_time)
+func _process(_delta: float) -> void:
+	if Input.is_key_pressed(KEY_SPACE):
+		take_damage(1)
+
+
+# =========================
+# MUERTE
+# =========================
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	print("💥 HITBOX DETECTÓ AREA: ", area.name)
+	print("   Padre: ", area.get_parent().name)
+	
+
+func die() -> void:
+	print("💀 LA CABRA MURIÓ")
+
+	queue_free()
