@@ -3,14 +3,6 @@
 [ext_resource type="Script" uid="uid://dxaf6kdjmigu0" path="res://scripts/character_body_2d.gd" id="1_ddbqi"]
 [ext_resource type="Texture2D" uid="uid://dvmjg740c68lh" path="res://assets/AssetsTheGoat/ATheGoat.png" id="1_eycec"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u5o06"]
-radius = 24.0
-height = 152.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3mmjt"]
-radius = 28.0
-height = 162.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ddbqi"]
 atlas = ExtResource("1_eycec")
 region = Rect2(0, 0, 394, 376)
@@ -215,25 +207,71 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="TheGoat" type="Node2D" unique_id=560370792]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u5o06"]
+radius = 24.0
+height = 152.0
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1104503373]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3mmjt"]
+radius = 28.0
+height = 162.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kmedt"]
+radius = 32.0
+height = 166.0
+
+[node name="Node2D" type="Node2D" unique_id=726003926]
+position = Vector2(549, 271)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1511519835]
+z_index = 3
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_ddbqi")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1313389798]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1506609434]
+sprite_frames = SubResource("SpriteFrames_snw0h")
+frame_progress = 0.39746708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=949182199]
 z_index = 1
 position = Vector2(10, 1)
 shape = SubResource("CapsuleShape2D_u5o06")
 
-[node name="Hurtbox" type="Area2D" parent="CharacterBody2D" unique_id=646691231]
+[node name="Hurtbox" type="Area2D" parent="CharacterBody2D" unique_id=198411439]
 z_index = 1
-collision_layer = 0
-collision_mask = 8
+collision_layer = 4
+collision_mask = 4
 
-[node name="HurtboxShape" type="CollisionShape2D" parent="CharacterBody2D/Hurtbox" unique_id=2048788464]
-position = Vector2(10, 2)
+[node name="HurtboxShape" type="CollisionShape2D" parent="CharacterBody2D/Hurtbox" unique_id=1755633935]
+position = Vector2(9, 0)
 shape = SubResource("CapsuleShape2D_3mmjt")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=822282210]
-sprite_frames = SubResource("SpriteFrames_snw0h")
-frame_progress = 0.39746708
+[node name="Hitbox" type="Area2D" parent="CharacterBody2D" unique_id=741634101]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hitbox" unique_id=1991514844]
+shape = SubResource("CapsuleShape2D_kmedt")
+
+[node name="AttackArea" type="Area2D" parent="CharacterBody2D" unique_id=1592415816]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/AttackArea" unique_id=650093555]
+shape = SubResource("CapsuleShape2D_kmedt")
+
+[node name="HealBarr" type="ProgressBar" parent="CharacterBody2D" unique_id=269810198]
+custom_minimum_size = Vector2(380, 0)
+offset_left = -190.0
+offset_top = 206.0
+offset_right = -186.0
+offset_bottom = 233.0
+size_flags_horizontal = 3
+size_flags_vertical = 10
+value = 100.0
+fill_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="CharacterBody2D" unique_id=96174677]
+
+[connection signal="area_entered" from="CharacterBody2D/Hitbox" to="CharacterBody2D" method="_on_hitbox_area_entered"]

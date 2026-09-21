@@ -99,10 +99,11 @@ func take_damage(amount: float) -> void:
 
 	current_health = clampf(current_health - amount, 0.0, max_health)
 	health_changed.emit(current_health, max_health)
+
 	print("Jugador recibió ", amount, " de daño. Vida restante: ", current_health, "/", max_health)
 
 	if current_health <= 0.0:
-		_expel_from_room()
+		call_deferred("_expel_from_room")
 	else:
 		_start_invulnerability(hit_i_frames)
 
@@ -128,7 +129,7 @@ func _expel_from_room() -> void:
 		current_scene_path = get_tree().current_scene.scene_file_path
 	
 	if current_scene_path != initial_room_scene:
-		get_tree().change_scene_to_file(initial_room_scene)
+		get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
 	else:
 		# Si ya está en la sala inicial, reaparecer en el origen o posición inicial
 		global_position = Vector2.ZERO
