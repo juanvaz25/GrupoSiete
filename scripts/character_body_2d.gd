@@ -7,16 +7,16 @@ extends CharacterBody2D
 
 #Variables generales
 @export var max_health: float = 100.0
-@export var speed: float = 500.0
+@export var speed: float = 700.0
 @export var chase_distance: float = 280.0
 
 var current_health: float
 var player: Node2D = null
 
 #Variables de enbestida
-@export var charge_speed: float = 700.0
-@export var charge_duration: float = 0.7
-@export var charge_prepare_time: float = 0.8
+@export var charge_speed: float = 1100.0
+@export var charge_duration: float = 0.8
+@export var charge_prepare_time: float = 0.5
 @export var charge_cooldown: float = 2.0
 
 
@@ -71,13 +71,95 @@ func _physics_process(_delta: float) -> void:
 		var direction := global_position.direction_to(player.global_position)
 
 		velocity = direction * speed
+
+		# Animación de caminar según la dirección
+		var animation_name := get_walk_animation(direction)
+		sprite.play(animation_name)
+
 		move_and_slide()
+
 	else:
 		velocity = Vector2.ZERO
+
+		# Cuando está quieta, vuelve al idle
+		#sprite.play("default")
 
 		if can_attack:
 			print("🎯 DISTANCIA DE ATAQUE: ", distance)
 			start_charge()
+
+#
+# ANIMACIONES 
+#
+func get_walk_animation(direction: Vector2) -> String:
+	var angle := direction.angle()
+
+	# DERECHA
+	if angle >= -PI / 8 and angle < PI / 8:
+		return "walk_right"
+
+	# ABAJO-DERECHA
+	elif angle >= PI / 8 and angle < 3 * PI / 8:
+		return "walk_down_right"
+
+	# ABAJO
+	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
+		return "walk_down"
+
+	# ABAJO-IZQUIERDA
+	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
+		return "walk_down_left"
+
+	# IZQUIERDA
+	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
+		return "walk_left"
+
+	# ARRIBA-IZQUIERDA
+	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
+		return "walk_up_left"
+
+	# ARRIBA
+	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
+		return "walk_up"
+
+	# ARRIBA-DERECHA
+	else:
+		return "walk_up_right"
+
+func get_charge_animation(direction: Vector2) -> String:
+	var angle := direction.angle()
+
+	# DERECHA
+	if angle >= -PI / 8 and angle < PI / 8:
+		return "charge_right"
+
+	# ABAJO-DERECHA
+	elif angle >= PI / 8 and angle < 3 * PI / 8:
+		return "charge_down_right"
+
+	# ABAJO
+	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
+		return "charge_down"
+
+	# ABAJO-IZQUIERDA
+	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
+		return "charge_down_left"
+
+	# IZQUIERDA
+	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
+		return "charge_left"
+
+	# ARRIBA-IZQUIERDA
+	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
+		return "charge_up_left"
+
+	# ARRIBA
+	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
+		return "charge_up"
+
+	# ARRIBA-DERECHA
+	else:
+		return "charge_up_right"
 
 # =========================
 # RECIBIR DAÑO
@@ -92,6 +174,13 @@ func start_charge() -> void:
 	print("🐐 ¡LA CABRA SE PREPARA PARA EMBESTIR!")
 
 	charge_direction = global_position.direction_to(player.global_position)
+
+	# Elegir animación según la dirección del ataque
+	var animation_name := get_charge_animation(charge_direction)
+
+	print("🎬 Animación de embestida: ", animation_name)
+
+	sprite.play(animation_name)
 
 	# Efecto visual de preparación
 	sprite.modulate = Color(1.0, 0.3, 0.3)
@@ -131,6 +220,8 @@ func start_charging() -> void:
 	hitbox.monitoring = false
 
 	is_charging = false
+	
+	sprite.play("default")
 
 	print("🐐 La Cabra terminó la embestida")
 
@@ -165,11 +256,7 @@ func take_damage(amount: float) -> void:
 	if current_health <= 0:
 		die()
 		
-func _process(_delta: float) -> void:
-	if Input.is_key_pressed(KEY_SPACE):
-		take_damage(1)
-
-
+		
 # =========================
 # MUERTE
 # =========================

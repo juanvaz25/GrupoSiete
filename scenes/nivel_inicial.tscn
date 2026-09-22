@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dgd6upxc75u6g" path="res://assets/AssetsBiblioteca/NUEVO.png" id="6_i13yi"]
 [ext_resource type="VideoStream" uid="uid://b4ay6uso1rvis" path="res://assets/VideosHistoria/5.ogv" id="7_0xjlk"]
 [ext_resource type="Script" uid="uid://dka23o8kb5wbw" path="res://scripts/entrada_basilisco.gd" id="7_5cr60"]
+[ext_resource type="AudioStream" uid="uid://bxpsje7gywvpp" path="res://assets/Sonidos/Roberto Lara Argentina - The Guitar of the Pampas.mp3" id="8_5cr60"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_kmedt"]
 a = Vector2(1027, 618)
@@ -13554,3 +13555,7 @@ stream = ExtResource("7_0xjlk")
 autoplay = true
 expand = true
 loop = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1570482864]
+stream = ExtResource("8_5cr60")
+autoplay = true
