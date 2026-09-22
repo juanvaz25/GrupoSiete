@@ -2806,6 +2806,7 @@ sources/0 = SubResource("TileSetAtlasSource_tpke4")
 
 [node name="TheGoat" parent="." unique_id=560370792 instance=ExtResource("1_wuref")]
 position = Vector2(86, -186)
+scale = Vector2(0.3, 0.3)
 
 [node name="Player" parent="." unique_id=318955597 instance=ExtResource("2_if42j")]
 position = Vector2(0, 429)
