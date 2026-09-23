@@ -109,7 +109,7 @@ func _physics_process(_delta: float) -> void:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 
 		if not is_shooting:
-			_sprite.play("default")
+			_sprite.play("Idle")
 
 	move_and_slide()
 
