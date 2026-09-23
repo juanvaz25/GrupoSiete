@@ -9,7 +9,7 @@ extends Node
 ## Velocidad del dash (px/s).
 @export var dash_speed: float = 900.0
 ## Duración del impulso en segundos.
-@export var dash_duration: float = 0.15
+@export var dash_duration: float = 0.40
 ## Tiempo de espera entre dashes en segundos.
 @export var dash_cooldown: float = 0.8
 
@@ -23,6 +23,7 @@ signal dash_finished
 var is_dashing: bool = false
 var _can_dash: bool = true
 var _dash_direction: Vector2 = Vector2.ZERO
+var dash_direction: Vector2 = Vector2.ZERO
 
 @onready var _duration_timer: Timer = Timer.new()
 @onready var _cooldown_timer: Timer = Timer.new()
@@ -65,6 +66,7 @@ func _try_dash() -> void:
 		return
 
 	_dash_direction = direction.normalized()
+	dash_direction = _dash_direction
 	is_dashing = true
 	_can_dash = false
 	_duration_timer.start()

@@ -183,15 +183,27 @@ func _on_i_frame_timeout() -> void:
 func _on_dash_started() -> void:
 	is_invulnerable = true
 	invulnerability_changed.emit(true)
-	# Feedback visual sutil durante dash (ligera transparencia)
+
 	if _sprite:
 		_sprite.modulate.a = 0.6
+
+		var dash_direction: Vector2 = _dash_ability.dash_direction
+		var dash_animation: String = get_dash_animation(dash_direction)
+
+		print("💨 DASH: ", dash_animation)
+		_sprite.play(dash_animation)
 
 
 func _on_dash_finished() -> void:
 	if _sprite:
 		_sprite.modulate.a = 1.0
-	# Si no hay timer de golpe activo, se termina la invulnerabilidad
+
+		# Volver a la animación normal
+		if input_direction != Vector2.ZERO:
+			_sprite.play(get_walk_animation(input_direction))
+		else:
+			_sprite.play("default")
+
 	if _i_frame_timer.is_stopped():
 		is_invulnerable = false
 		invulnerability_changed.emit(false)
@@ -330,10 +342,54 @@ func play_shoot_animation() -> void:
 
 	var animation_name := get_shoot_animation(last_direction)
 
-	print("🔫 Animación de disparo: ", animation_name)
+	print("🔫 Dirección: ", last_direction)
+	print("🎬 Animación solicitada: ", animation_name)
+
+	if not _sprite.sprite_frames.has_animation(animation_name):
+		print("❌ NO EXISTE: ", animation_name)
+		is_shooting = false
+		return
+
+	print("✅ EXISTE: ", animation_name)
 
 	_sprite.play(animation_name)
 
 	await _sprite.animation_finished
 
 	is_shooting = false
+
+
+func get_dash_animation(direction: Vector2) -> String:
+	var angle := direction.angle()
+
+	# DERECHA
+	if angle >= -PI / 8 and angle < PI / 8:
+		return "dash_right"
+
+	# ABAJO-DERECHA
+	elif angle >= PI / 8 and angle < 3 * PI / 8:
+		return "dash_down_right"
+
+	# ABAJO
+	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
+		return "dash_down"
+
+	# ABAJO-IZQUIERDA
+	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
+		return "dash_down_left"
+
+	# IZQUIERDA
+	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
+		return "dash_left"
+
+	# ARRIBA-IZQUIERDA
+	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
+		return "dash_up_left"
+
+	# ARRIBA
+	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
+		return "dash_up"
+
+	# ARRIBA-DERECHA
+	else:
+		return "dash_up_right"
