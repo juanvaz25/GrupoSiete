@@ -27,6 +27,7 @@ signal invulnerability_changed(is_invulnerable: bool)
 var input_direction: Vector2 = Vector2.ZERO
 ## Última dirección de movimiento válida. Útil para el dash sin input activo.
 var last_direction: Vector2 = Vector2.RIGHT
+var is_shooting: bool = false
 
 ## Puntos de vida actuales.
 var current_health: float = 3.0
@@ -66,23 +67,49 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	# Leer input usando el Input Map
-	input_direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	# Leer input
+	input_direction = Input.get_vector(
+		"move_left",
+		"move_right",
+		"move_up",
+		"move_down"
+	)
 
-	# Registrar última dirección válida para habilidades que la necesiten
+	# Guardar última dirección válida
 	if input_direction != Vector2.ZERO:
 		last_direction = input_direction.normalized()
 
-	# Si alguna habilidad (ej: dash) controla la velocidad, no sobreescribir
+	# =========================
+	# DASH
+	# =========================
+
 	if _dash_ability and _dash_ability.is_dashing:
 		move_and_slide()
 		return
 
-	# Movimiento normal
+	# =========================
+	# DISPARO
+	# =========================
+
+	if Input.is_action_just_pressed("shoot"):
+		play_shoot_animation()
+
+	# =========================
+	# MOVIMIENTO
+	# =========================
+
 	if input_direction != Vector2.ZERO:
 		velocity = input_direction * SPEED
+
+		if not is_shooting:
+			var animation_name := get_walk_animation(input_direction)
+			_sprite.play(animation_name)
+
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
+
+		if not is_shooting:
+			_sprite.play("default")
 
 	move_and_slide()
 
@@ -99,10 +126,11 @@ func take_damage(amount: float) -> void:
 
 	current_health = clampf(current_health - amount, 0.0, max_health)
 	health_changed.emit(current_health, max_health)
+
 	print("Jugador recibió ", amount, " de daño. Vida restante: ", current_health, "/", max_health)
 
 	if current_health <= 0.0:
-		_expel_from_room()
+		call_deferred("_expel_from_room")
 	else:
 		_start_invulnerability(hit_i_frames)
 
@@ -128,7 +156,7 @@ func _expel_from_room() -> void:
 		current_scene_path = get_tree().current_scene.scene_file_path
 	
 	if current_scene_path != initial_room_scene:
-		get_tree().change_scene_to_file(initial_room_scene)
+		get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
 	else:
 		# Si ya está en la sala inicial, reaparecer en el origen o posición inicial
 		global_position = Vector2.ZERO
@@ -215,3 +243,97 @@ func _process_incoming_attack(source: Node2D) -> void:
 		incoming_dmg = float(source.get_parent().get("damage"))
 
 	take_damage(incoming_dmg)
+
+
+
+#
+# ANIMACIONES
+#
+
+func get_walk_animation(direction: Vector2) -> String:
+	var angle := direction.angle()
+
+	# DERECHA
+	if angle >= -PI / 8 and angle < PI / 8:
+		return "walk_right"
+
+	# ABAJO-DERECHA
+	elif angle >= PI / 8 and angle < 3 * PI / 8:
+		return "walk_down_right"
+
+	# ABAJO
+	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
+		return "walk_down"
+
+	# ABAJO-IZQUIERDA
+	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
+		return "walk_down_left"
+
+	# IZQUIERDA
+	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
+		return "walk_left"
+
+	# ARRIBA-IZQUIERDA
+	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
+		return "walk_up_left"
+
+	# ARRIBA
+	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
+		return "walk_up"
+
+	# ARRIBA-DERECHA
+	else:
+		return "walk_up_right"
+		
+
+func get_shoot_animation(direction: Vector2) -> String:
+	var angle := direction.angle()
+
+	# DERECHA
+	if angle >= -PI / 8 and angle < PI / 8:
+		return "shoot_right"
+
+	# ABAJO-DERECHA
+	elif angle >= PI / 8 and angle < 3 * PI / 8:
+		return "shoot_down_right"
+
+	# ABAJO
+	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
+		return "shoot_down"
+
+	# ABAJO-IZQUIERDA
+	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
+		return "shoot_down_left"
+
+	# IZQUIERDA
+	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
+		return "shoot_left"
+
+	# ARRIBA-IZQUIERDA
+	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
+		return "shoot_up_left"
+
+	# ARRIBA
+	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
+		return "shoot_up"
+
+	# ARRIBA-DERECHA
+	else:
+		return "shoot_up_right"
+
+
+func play_shoot_animation() -> void:
+	if is_shooting:
+		return
+
+	is_shooting = true
+
+	var animation_name := get_shoot_animation(last_direction)
+
+	print("🔫 Animación de disparo: ", animation_name)
+
+	_sprite.play(animation_name)
+
+	await _sprite.animation_finished
+
+	is_shooting = false
