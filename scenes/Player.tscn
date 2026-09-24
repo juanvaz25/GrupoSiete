@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://wqlbqbbbwlll"]
 
 [ext_resource type="Script" uid="uid://6ckxq1jepiqd" path="res://scripts/player.gd" id="1_kpjcp"]
+[ext_resource type="Script" uid="uid://ctobiw75rme1v" path="res://scripts/cursor_camera.gd" id="2_camera"]
 [ext_resource type="Texture2D" uid="uid://c8v3dm3hu53vj" path="res://assets/AssetsBairoleto/shoot_down.png" id="3_0rnld"]
 [ext_resource type="Texture2D" uid="uid://dq4xn20us772p" path="res://assets/AssetsBairoleto/dash_down.png" id="3_axnmu"]
 [ext_resource type="Texture2D" uid="uid://8ctaswfgunbr" path="res://assets/AssetsBairoleto/walk_down.png" id="3_cw2d6"]
@@ -1576,9 +1577,9 @@ position = Vector2(10, 2)
 shape = SubResource("CapsuleShape2D_hurt")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=520147163]
-position = Vector2(0, -474)
 zoom = Vector2(0.5, 0.5)
 limit_enabled = false
+script = ExtResource("2_camera")
 
 [node name="ShootOrigin" type="Marker2D" parent="." unique_id=1969359081]
 position = Vector2(32.25, -75.25)
