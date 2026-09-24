@@ -109,7 +109,7 @@ func _physics_process(_delta: float) -> void:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 
 		if not is_shooting:
-			_sprite.play("Idle")
+			_sprite.play("idle"+get_direction(last_direction))
 
 	move_and_slide()
 
@@ -333,6 +333,42 @@ func get_shoot_animation(direction: Vector2) -> String:
 	else:
 		return "shoot_up_right"
 
+
+func get_direction(direction: Vector2) -> String:
+	var angle := direction.angle()
+
+	# DERECHA
+	
+	if angle >= -PI / 8 and angle < PI / 8:
+		return "_right"
+
+	# ABAJO-DERECHA
+	elif angle >= PI / 8 and angle < 3 * PI / 8:
+		return "_down_right"
+
+	# ABAJO
+	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
+		return "_down"
+
+	# ABAJO-IZQUIERDA
+	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
+		return "_down_left"
+
+	# IZQUIERDA
+	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
+		return "_left"
+
+	# ARRIBA-IZQUIERDA
+	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
+		return "_up_left"
+
+	# ARRIBA
+	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
+		return "_up"
+
+	# ARRIBA-DERECHA
+	else:
+		return "_up_right"
 
 func play_shoot_animation() -> void:
 	if is_shooting:
