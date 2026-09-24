@@ -1828,14 +1828,74 @@ scale = Vector2(0.8, 0.8)
 tile_map_data = PackedByteArray("AADwAG3/AAABAAEAAAA=")
 tile_set = SubResource("TileSet_tos4u")
 
-[node name="Goat" parent="TileMapsLayers" unique_id=726003926 instance=ExtResource("8_m3sjd")]
-position = Vector2(-66, -3169)
-scale = Vector2(0.7, 0.7)
+[node name="Goat" parent="TileMapsLayers" unique_id=1386890612 instance=ExtResource("8_m3sjd")]
+position = Vector2(249.99998, -2937)
+scale = Vector2(0.8, 0.8)
+collision_layer = 524290
+collision_mask = 5
+speed = 400.0
+charge_speed = 2500.0
+charge_duration = 0.6
+charge_prepare_time = 1.5
+charge_cooldown = 3.0
+
+[node name="Goat7" parent="TileMapsLayers" unique_id=726003926 instance=ExtResource("8_m3sjd")]
+position = Vector2(-71, -3286)
+scale = Vector2(0.4, 0.4)
+collision_mask = 7
+max_health = 12.0
+speed = 600.0
+charge_speed = 900.0
+charge_duration = 0.4
+charge_prepare_time = 0.8
+
+[node name="Goat2" parent="TileMapsLayers" unique_id=1584783754 instance=ExtResource("8_m3sjd")]
+position = Vector2(-815.99994, -2675)
+scale = Vector2(0.4, 0.4)
+collision_mask = 7
+max_health = 12.0
+speed = 600.0
+charge_speed = 900.0
+charge_duration = 0.4
+charge_prepare_time = 0.8
+
+[node name="Goat5" parent="TileMapsLayers" unique_id=959658841 instance=ExtResource("8_m3sjd")]
+position = Vector2(-292, -2626)
+scale = Vector2(0.4, 0.4)
+collision_mask = 7
+max_health = 12.0
+speed = 600.0
+charge_speed = 900.0
+charge_duration = 0.4
+charge_prepare_time = 0.8
+
+[node name="Goat6" parent="TileMapsLayers" unique_id=2111517644 instance=ExtResource("8_m3sjd")]
+position = Vector2(-780.99994, -3156)
+scale = Vector2(0.4, 0.4)
+collision_mask = 7
+max_health = 12.0
+speed = 600.0
+charge_speed = 900.0
+charge_duration = 0.4
+charge_prepare_time = 0.8
+
+[node name="Goat3" parent="TileMapsLayers" unique_id=1520618760 instance=ExtResource("8_m3sjd")]
+position = Vector2(-550, -3047)
+scale = Vector2(0.4, 0.4)
+collision_mask = 7
+max_health = 12.0
+speed = 600.0
+charge_speed = 900.0
+charge_duration = 0.4
+charge_prepare_time = 0.8
 
 [node name="Player" parent="TileMapsLayers" unique_id=318955597 instance=ExtResource("6_pau3h")]
 position = Vector2(61, 40)
+collision_mask = 524293
 
 [node name="Limites" type="StaticBody2D" parent="." unique_id=1082037851]
+collision_layer = 7
+collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Limites" unique_id=232474285]
 z_index = 5
