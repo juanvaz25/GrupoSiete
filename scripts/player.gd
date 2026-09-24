@@ -130,6 +130,7 @@ func take_damage(amount: float) -> void:
 	print("Jugador recibió ", amount, " de daño. Vida restante: ", current_health, "/", max_health)
 
 	if current_health <= 0.0:
+		is_invulnerable = true
 		call_deferred("_expel_from_room")
 	else:
 		_start_invulnerability(hit_i_frames)
@@ -148,15 +149,20 @@ func heal(amount: float) -> void:
 func _expel_from_room() -> void:
 	print("¡Vida reducida a 0! El personaje ha sido echado de la sala.")
 	current_health = max_health
+	is_invulnerable = false
 	expelled_from_room.emit()
+	
+	var tree := get_tree()
+	if tree == null:
+		return
 	
 	# Cambiar escena al nivel inicial si no estamos ya en él
 	var current_scene_path := ""
-	if get_tree().current_scene:
-		current_scene_path = get_tree().current_scene.scene_file_path
+	if tree.current_scene != null:
+		current_scene_path = tree.current_scene.scene_file_path
 	
 	if current_scene_path != initial_room_scene:
-		get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
+		tree.change_scene_to_file("res://scenes/nivel_inicial.tscn")
 	else:
 		# Si ya está en la sala inicial, reaparecer en el origen o posición inicial
 		global_position = Vector2.ZERO
@@ -242,17 +248,33 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 func _process_incoming_attack(source: Node2D) -> void:
 	if source == null or is_invulnerable:
 		return
-	# Ignorar si es el propio jugador o sus proyectiles
-	if source == self or source.is_in_group("player") or source.get_parent() == self:
+	# Ignorar si es el propio jugador, sus hijos o proyectiles del jugador
+	if source == self or source.is_in_group("player") or source.is_in_group("player_projectile"):
 		return
-	if source.name.begins_with("Bullet") or source.name.begins_with("RifleBullet"):
+	if source.get_parent() != null and (source.get_parent() == self or source.get_parent().is_in_group("player") or source.get_parent().is_in_group("player_projectile")):
+		return
+	if "bullet" in source.name.to_lower() or "disparo" in source.name.to_lower() or "proyectil" in source.name.to_lower():
+		return
+	# Ignorar paredes, mapas, límites o portales
+	if source is StaticBody2D or source is TileMapLayer or source is TileMap:
 		return
 
-	var incoming_dmg: float = 1.0
+	var has_damage := false
+	var incoming_dmg: float = 0.0
+
 	if source.get("damage") != null:
 		incoming_dmg = float(source.get("damage"))
+		has_damage = true
 	elif source.get_parent() and source.get_parent().get("damage") != null:
 		incoming_dmg = float(source.get_parent().get("damage"))
+		has_damage = true
+	elif source.is_in_group("enemy_attack") or source.is_in_group("enemy") or source.is_in_group("hazard"):
+		incoming_dmg = 0.5
+		has_damage = true
+
+	# Solo aplicar daño si realmente proviene de un ataque enemigo o colisión con daño válido
+	if not has_damage or incoming_dmg <= 0.0:
+		return
 
 	take_damage(incoming_dmg)
 

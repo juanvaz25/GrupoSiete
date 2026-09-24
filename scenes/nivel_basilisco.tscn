@@ -1,3 +1,55 @@
 [gd_scene format=3 uid="uid://dhs6ifepprnm6"]
 
-[node name="Node2D" type="TileMapLayer" unique_id=680564141]
+[ext_resource type="PackedScene" uid="uid://d4mij3wqj7fxm" path="res://scenes/Basilisco.tscn" id="1_basil"]
+[ext_resource type="PackedScene" uid="uid://wqlbqbbbwlll" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="Texture2D" uid="uid://cux4or8dsyxsi" path="res://assets/AssetsInfiernos/PNG/Ground.png" id="3_ground"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_top"]
+normal = Vector2(0, 1)
+distance = -520.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bottom"]
+distance = -520.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_left"]
+normal = Vector2(1, 0)
+distance = -850.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_right"]
+normal = Vector2(-1, 0)
+distance = -850.0
+
+[node name="nivel_basilisco" type="Node2D" unique_id=996965100]
+
+[node name="ArenaFloor" type="Node2D" parent="." unique_id=2029368862]
+z_index = -10
+
+[node name="FloorSprite1" type="Sprite2D" parent="ArenaFloor" unique_id=1373624762]
+modulate = Color(0.85, 0.65, 0.6, 1)
+position = Vector2(2109, -574)
+scale = Vector2(4.5, 4.5)
+texture = ExtResource("3_ground")
+region_enabled = true
+region_rect = Rect2(64, 0, 400, 300)
+
+[node name="ArenaBounds" type="StaticBody2D" parent="." unique_id=2025526393]
+collision_mask = 0
+
+[node name="WallTop" type="CollisionShape2D" parent="ArenaBounds" unique_id=2114169834]
+shape = SubResource("WorldBoundaryShape2D_top")
+
+[node name="WallBottom" type="CollisionShape2D" parent="ArenaBounds" unique_id=1883299702]
+shape = SubResource("WorldBoundaryShape2D_bottom")
+
+[node name="WallLeft" type="CollisionShape2D" parent="ArenaBounds" unique_id=2054218623]
+shape = SubResource("WorldBoundaryShape2D_left")
+
+[node name="WallRight" type="CollisionShape2D" parent="ArenaBounds" unique_id=1616520074]
+shape = SubResource("WorldBoundaryShape2D_right")
+
+[node name="Basilisco" parent="." unique_id=940099169 instance=ExtResource("1_basil")]
+position = Vector2(0, -180)
+
+[node name="Player" parent="." unique_id=685654452 instance=ExtResource("2_player")]
+position = Vector2(0, 320)
+scale = Vector2(0.61, 0.61)
