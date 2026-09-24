@@ -11,7 +11,7 @@ extends CharacterBody2D
 @export var chase_distance: float = 280.0
 
 var current_health: float
-var player: Node2D = null
+var player: CharacterBody2D = null
 
 #Variables de enbestida
 @export var charge_speed: float = 1100.0
@@ -51,7 +51,7 @@ func _ready() -> void:
 	var players := get_tree().get_nodes_in_group("player")
 
 	if players.size() > 0:
-		player = players[0]
+		player = players[0] as CharacterBody2D
 		print("🎯 Player encontrado: ", player.name)
 	else:
 		print("❌ NO SE ENCONTRÓ AL PLAYER")
@@ -64,7 +64,7 @@ func _physics_process(_delta: float) -> void:
 
 	if is_charging:
 		return
-
+	
 	var distance := global_position.distance_to(player.global_position)
 
 	if distance > chase_distance:
@@ -172,8 +172,8 @@ func start_charge() -> void:
 	can_attack = false
 
 	print("🐐 ¡LA CABRA SE PREPARA PARA EMBESTIR!")
-
-	charge_direction = global_position.direction_to(player.global_position)
+	
+	
 
 	# Elegir animación según la dirección del ataque
 	var animation_name := get_charge_animation(charge_direction)
@@ -204,7 +204,13 @@ func start_charging() -> void:
 	hitbox.monitoring = true
 
 	var elapsed := 0.0
+	var distance := global_position.distance_to(player.global_position)
+	var travel_time := distance / charge_speed
+	var prediction_time := charge_prepare_time + travel_time
+	var predicted_position := player.global_position + player.velocity * prediction_time
 
+	charge_direction = global_position.direction_to(predicted_position)
+	
 	while elapsed < charge_duration:
 		velocity = charge_direction * charge_speed
 		move_and_slide()
