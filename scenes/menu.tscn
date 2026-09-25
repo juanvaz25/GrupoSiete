@@ -2,6 +2,23 @@
 
 [ext_resource type="Script" uid="uid://w28dr54ofogg" path="res://scripts/menu.gd" id="1_vjb58"]
 [ext_resource type="Texture2D" uid="uid://m3fwcp66mvob" path="res://assets/Title.png" id="1_yqeox"]
+[ext_resource type="AudioStream" uid="uid://bxpsje7gywvpp" path="res://assets/Sonidos/Roberto Lara Argentina - The Guitar of the Pampas.mp3" id="2_musica"]
+[ext_resource type="AudioStream" uid="uid://b405mhw3ucqdn" path="res://assets/Sonidos/basilisk_hit.wav" id="3_sfx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.121569, 0.121569, 0.14902, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.439216, 0.439216, 0.501961, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.470588)
+shadow_size = 10
+shadow_offset = Vector2(0, 4)
 
 [node name="Menu" type="Control" unique_id=856102320]
 layout_mode = 3
@@ -33,21 +50,149 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -214.0
-offset_top = 39.0
-offset_right = 226.0
-offset_bottom = 214.0
+offset_left = -160.0
+offset_top = 35.0
+offset_right = 160.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+
+[node name="ButtonJugar" type="Button" parent="VBoxContainer" unique_id=256069089]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "JUGAR"
+
+[node name="ButtonConfiguracion" type="Button" parent="VBoxContainer" unique_id=284918204]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "CONFIGURACIÓN"
+
+[node name="ButtonSalir" type="Button" parent="VBoxContainer" unique_id=741171763]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "SALIR"
+
+[node name="PanelConfiguracion" type="Control" parent="." unique_id=987216354]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ButtonJugar" type="Button" parent="VBoxContainer" unique_id=256069089]
+[node name="FondoOscuro" type="ColorRect" parent="PanelConfiguracion" unique_id=194827361]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65098)
+
+[node name="VentanaConfig" type="PanelContainer" parent="PanelConfiguracion" unique_id=837261945]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -170.0
+offset_right = 220.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelConfiguracion/VentanaConfig" unique_id=628391740]
 layout_mode = 2
-text = "JUGAR
-"
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
 
-[node name="Salir" type="Button" parent="VBoxContainer" unique_id=741171763]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelConfiguracion/VentanaConfig/MarginContainer" unique_id=472918472]
 layout_mode = 2
-text = "SALIR
+theme_override_constants/separation = 16
 
+[node name="Titulo" type="Label" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer" unique_id=184729103]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "CONFIGURACIÓN"
+horizontal_alignment = 1
 
-"
+[node name="HSeparator" type="HSeparator" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer" unique_id=293847102]
+layout_mode = 2
+
+[node name="SeccionMusica" type="VBoxContainer" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer" unique_id=384729104]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionMusica" unique_id=482910471]
+layout_mode = 2
+
+[node name="LabelMusica" type="Label" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionMusica/HBoxContainer" unique_id=582910482]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Música"
+
+[node name="LabelMusicaValor" type="Label" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionMusica/HBoxContainer" unique_id=682910493]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderMusica" type="HSlider" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionMusica" unique_id=782910404]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="SeccionSFX" type="VBoxContainer" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer" unique_id=882910415]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionSFX" unique_id=982910426]
+layout_mode = 2
+
+[node name="LabelSFX" type="Label" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionSFX/HBoxContainer" unique_id=193820192]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Efectos de Sonido"
+
+[node name="LabelSFXValor" type="Label" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionSFX/HBoxContainer" unique_id=294831203]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SliderSFX" type="HSlider" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer/SeccionSFX" unique_id=395842314]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="HSeparator2" type="HSeparator" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer" unique_id=496853425]
+layout_mode = 2
+
+[node name="ButtonCerrarConfig" type="Button" parent="PanelConfiguracion/VentanaConfig/MarginContainer/VBoxContainer" unique_id=597864536]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "VOLVER"
+
+[node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=708975647]
+stream = ExtResource("2_musica")
+autoplay = true
+bus = &"Musica"
+
+[node name="AudioSFXTest" type="AudioStreamPlayer" parent="." unique_id=819086758]
+stream = ExtResource("3_sfx")
+bus = &"SFX"
