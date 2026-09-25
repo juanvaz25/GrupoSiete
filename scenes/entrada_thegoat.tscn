@@ -1,20 +1,34 @@
 [gd_scene format=3 uid="uid://b3vv33nltf17v"]
 
-[ext_resource type="PackedScene" uid="uid://c4ylu4h8w0h6q" path="res://scenes/hisotria_inicial.tscn" id="1_fkl8k"]
+[ext_resource type="Script" uid="uid://fqfgnk6aw7dr" path="res://SCRIPTS/entrada_thegoat.gd" id="1_84lhh"]
+[ext_resource type="VideoStream" uid="uid://j7h4222a6okf" path="res://assets/AssetsTheGoat/EntradaTheGoatVideo.ogv" id="2_84lhh"]
 
-[node name="EntradaThegoat" type="Node2D" unique_id=854120107]
-
-[node name="HisotriaInicial" parent="." unique_id=2109935746 instance=ExtResource("1_fkl8k")]
-
-[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="HisotriaInicial" unique_id=1981046931]
-layout_mode = 1
+[node name="HistoriaInicial" type="Control" unique_id=93741006]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_84lhh")
 
-[node name="BotonSiguiente2" type="Button" parent="HisotriaInicial" unique_id=1972474554]
+[node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="." unique_id=26564479]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.055555556
+anchor_top = -0.055555556
+anchor_right = 1.0555556
+anchor_bottom = 1.0555556
+offset_left = 64.0
+offset_top = 36.0
+offset_right = -64.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_84lhh")
+autoplay = true
+
+[node name="BotonSiguiente2" type="Button" parent="." unique_id=1839450442]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
