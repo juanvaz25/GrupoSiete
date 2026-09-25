@@ -72,94 +72,15 @@ func _physics_process(_delta: float) -> void:
 
 		velocity = direction * speed
 
-		# Animación de caminar según la dirección
-		var animation_name := get_walk_animation(direction)
-		sprite.play(animation_name)
-
+		sprite.play(Utility.get_direction("walk",direction))
 		move_and_slide()
 
 	else:
 		velocity = Vector2.ZERO
-
-		# Cuando está quieta, vuelve al idle
-		#sprite.play("default")
-
 		if can_attack:
 			print("🎯 DISTANCIA DE ATAQUE: ", distance)
 			start_charge()
 
-#
-# ANIMACIONES 
-#
-func get_walk_animation(direction: Vector2) -> String:
-	var angle := direction.angle()
-
-	# DERECHA
-	if angle >= -PI / 8 and angle < PI / 8:
-		return "walk_right"
-
-	# ABAJO-DERECHA
-	elif angle >= PI / 8 and angle < 3 * PI / 8:
-		return "walk_down_right"
-
-	# ABAJO
-	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
-		return "walk_down"
-
-	# ABAJO-IZQUIERDA
-	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
-		return "walk_down_left"
-
-	# IZQUIERDA
-	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
-		return "walk_left"
-
-	# ARRIBA-IZQUIERDA
-	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
-		return "walk_up_left"
-
-	# ARRIBA
-	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
-		return "walk_up"
-
-	# ARRIBA-DERECHA
-	else:
-		return "walk_up_right"
-
-func get_charge_animation(direction: Vector2) -> String:
-	var angle := direction.angle()
-
-	# DERECHA
-	if angle >= -PI / 8 and angle < PI / 8:
-		return "charge_right"
-
-	# ABAJO-DERECHA
-	elif angle >= PI / 8 and angle < 3 * PI / 8:
-		return "charge_down_right"
-
-	# ABAJO
-	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
-		return "charge_down"
-
-	# ABAJO-IZQUIERDA
-	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
-		return "charge_down_left"
-
-	# IZQUIERDA
-	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
-		return "charge_left"
-
-	# ARRIBA-IZQUIERDA
-	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
-		return "charge_up_left"
-
-	# ARRIBA
-	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
-		return "charge_up"
-
-	# ARRIBA-DERECHA
-	else:
-		return "charge_up_right"
 
 # =========================
 # RECIBIR DAÑO
@@ -173,14 +94,9 @@ func start_charge() -> void:
 
 	print("🐐 ¡LA CABRA SE PREPARA PARA EMBESTIR!")
 	
+	charge_direction = global_position.direction_to(player.global_position)
 	
-
-	# Elegir animación según la dirección del ataque
-	var animation_name := get_charge_animation(charge_direction)
-
-	print("🎬 Animación de embestida: ", animation_name)
-
-	sprite.play(animation_name)
+	sprite.play(Utility.get_direction("charge",charge_direction))
 
 	# Efecto visual de preparación
 	sprite.modulate = Color(1.0, 0.3, 0.3)
