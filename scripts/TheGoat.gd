@@ -192,6 +192,31 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 # MUERTE
 # =========================
 
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if not is_charging:
+		return
+
+	if player_hit_this_charge:
+		return
+
+	print("🐐 Hitbox detectó Area2D: ", area.name)
+
+	# Comprobar si el Area2D pertenece al Player
+	var target := area.get_parent()
+
+	if target == null:
+		return
+
+	if target.is_in_group("player"):
+		player_hit_this_charge = true
+
+		print("💥 ¡LA CABRA GOLPEÓ AL PLAYER!")
+
+		if target.has_method("take_damage"):
+			target.take_damage(1.0)
+	
+>>>>>>> Stashed changes:scripts/character_body_2d.gd
+
 func die() -> void:
 	print("💀 LA CABRA MURIÓ")
 
