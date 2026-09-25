@@ -255,13 +255,8 @@ func _process_incoming_attack(source: Node2D) -> void:
 		return
 	if "bullet" in source.name.to_lower() or "disparo" in source.name.to_lower() or "proyectil" in source.name.to_lower():
 		return
-	# Ignorar paredes, mapas, límites o portales
-	if source is StaticBody2D or source is TileMapLayer or source is TileMap:
-		return
-
-	var has_damage := false
-	var incoming_dmg: float = 0.0
-
+	#print("Daño recibido de fuente: " + source.name)
+	var incoming_dmg: float = 1.0
 	if source.get("damage") != null:
 		incoming_dmg = float(source.get("damage"))
 		has_damage = true

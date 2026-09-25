@@ -91,7 +91,7 @@ func _shoot() -> void:
 	var bullet: Node2D = bullet_scene.instantiate()
 	bullet.global_position = origin_pos
 	bullet.direction = direction
-
+	
 	# Agregar la bala a la escena
 	var tree := _player.get_tree() if _player else null
 	if tree and tree.current_scene:

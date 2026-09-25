@@ -28,7 +28,7 @@ func _process(delta: float) -> void:
 		# Medir desde el centro de pantalla evita realimentar el movimiento
 		# de la camara al calcular la posicion del cursor en el mundo.
 		var mouse_from_center := (mouse_position - viewport_rect.get_center()) / zoom
-		print("Posicion: "+str(mouse_from_center))
+		#print("Posicion: "+str(mouse_from_center))
 		if Vector2(mouse_from_center.x, mouse_from_center.y + 100).distance_to(Vector2.ZERO) > _min_cursor_offset.distance_to(Vector2.ZERO):
 			target_offset = (mouse_from_center * cursor_influence).limit_length(max_cursor_offset)
 
