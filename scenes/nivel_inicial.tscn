@@ -13461,3 +13461,5 @@ loop = true
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1570482864]
 stream = ExtResource("8_5cr60")
 autoplay = true
+bus = &"Musica"
+

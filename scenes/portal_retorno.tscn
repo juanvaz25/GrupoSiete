@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://drsc7em6pj38i"]
 
 [ext_resource type="Script" uid="uid://cportalscr1" path="res://scripts/portal_retorno.gd" id="1_portal"]
-[ext_resource type="AudioStream" uid="uid://cportalopenwav" path="res://assets/Sonidos/portal_open.wav" id="2_portalaudio"]
+[ext_resource type="AudioStream" uid="uid://jbo2rigg68kd" path="res://assets/Sonidos/portal_open.wav" id="2_portalaudio"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_portal"]
 radius = 42.0
@@ -37,7 +37,7 @@ color_ramp = SubResource("Gradient_portal")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_portalaudio")
 volume_db = 2.0
-bus = &"Master"
+bus = &"SFX"
 
 [node name="Label" type="Label" parent="."]
 offset_left = -110.0
