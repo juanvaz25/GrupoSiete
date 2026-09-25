@@ -23,10 +23,14 @@ var _is_reloading: bool = false
 @onready var _player: CharacterBody2D = get_parent()
 @onready var _shoot_origin: Marker2D = _player.get_node_or_null("ShootOrigin")
 @onready var _reload_bar: ProgressBar = _player.get_node_or_null("ReloadBar")
-
+@onready var _ammo_hud = get_parent().get_node_or_null("AmmoHUD")
 
 func _ready() -> void:
 	_ammo = magazine_size
+	
+	print("🔫 AmmoHUD iniciado")
+	print("Cylinder: ", get_node_or_null("Cylinder"))
+	print("RevolverCylinder: ", get_node_or_null("Cylinder/RevolverCylinder"))
 	
 	if _reload_bar:
 		_reload_bar.min_value = 0.0
@@ -78,6 +82,10 @@ func _shoot() -> void:
 
 	# Consume una bala
 	_ammo -= 1
+
+	if _ammo_hud:
+		_ammo_hud.update_ammo(_ammo)
+		
 	_can_shoot = false
 	_cooldown_timer.start()
 	ammo_changed.emit(_ammo, magazine_size)
@@ -101,6 +109,7 @@ func _shoot() -> void:
 
 	# Si gastó la última bala, recarga automáticamente
 	if _ammo == 0:
+		_ammo_hud.reload_ammo()
 		_start_reload()
 
 

@@ -30,6 +30,15 @@
 [ext_resource type="Texture2D" uid="uid://cd7fba38tmfum" path="res://assets/AssetsBairoleto/dash_up_left.png" id="9_qrixf"]
 [ext_resource type="Texture2D" uid="uid://cupb5ddojsq6p" path="res://assets/AssetsBairoleto/dash_up_right.png" id="10_qmt83"]
 [ext_resource type="Texture2D" uid="uid://b7gkwkb1ii56c" path="res://assets/AssetsBairoleto/walk_up_right.png" id="10_srp4u"]
+[ext_resource type="Texture2D" uid="uid://d0u2jypcm5kgs" path="res://assets/AssetsHUD/TAmbor.png" id="31_fvsjc"]
+[ext_resource type="Script" uid="uid://c7cg5dqns8gjm" path="res://scripts/ammo_hud.gd" id="31_hxdpb"]
+[ext_resource type="Texture2D" uid="uid://bsc162d7dtcwl" path="res://assets/AssetsHUD/tambor1.png" id="32_c0asu"]
+[ext_resource type="Texture2D" uid="uid://dog7qkrp5lwol" path="res://assets/AssetsHUD/tambor2.png" id="33_fq1a3"]
+[ext_resource type="Texture2D" uid="uid://di77u8kklrtd" path="res://assets/AssetsHUD/tambor3.png" id="34_gu4mg"]
+[ext_resource type="Texture2D" uid="uid://bk4t531coedp3" path="res://assets/AssetsHUD/tambor4.png" id="35_tk6la"]
+[ext_resource type="Texture2D" uid="uid://ciabskwy5ql3y" path="res://assets/AssetsHUD/tambor5.png" id="36_yrxk4"]
+[ext_resource type="Texture2D" uid="uid://38vjhcwmgy0c" path="res://assets/AssetsHUD/tambor6.png" id="37_eg1p0"]
+[ext_resource type="Texture2D" uid="uid://jqvxs82wqqvw" path="res://assets/AssetsHUD/tambor7.png" id="38_fq1a3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2yprt"]
 atlas = ExtResource("3_axnmu")
@@ -1654,3 +1663,33 @@ show_percentage = false
 
 [node name="HealthHUD" type="CanvasLayer" parent="." unique_id=274213478]
 script = ExtResource("7_hud")
+
+[node name="AmmoHUD" type="CanvasLayer" parent="." unique_id=601748074]
+script = ExtResource("31_hxdpb")
+tambor_1 = ExtResource("32_c0asu")
+tambor_2 = ExtResource("33_fq1a3")
+tambor_3 = ExtResource("34_gu4mg")
+tambor_4 = ExtResource("35_tk6la")
+tambor_5 = ExtResource("36_yrxk4")
+tambor_6 = ExtResource("37_eg1p0")
+tambor_7 = ExtResource("38_fq1a3")
+
+[node name="Cylinder" type="Control" parent="AmmoHUD" unique_id=1507408058]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RevolverCylinder" type="TextureRect" parent="AmmoHUD/Cylinder" unique_id=886129321]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 986.0
+offset_top = 494.0
+offset_right = 1096.0
+offset_bottom = 604.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("31_fvsjc")
+expand_mode = 1
