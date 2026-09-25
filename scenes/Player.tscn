@@ -1616,8 +1616,8 @@ shape = SubResource("CapsuleShape2D_o5u46")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=559156980]
 position = Vector2(-13, -40)
-collision_layer = 0
-collision_mask = 2
+collision_layer = 4
+collision_mask = 6
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1224537088]
 position = Vector2(10, -33)
