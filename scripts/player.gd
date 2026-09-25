@@ -312,4 +312,3 @@ func _setup_custom_crosshair() -> void:
 func _exit_tree() -> void:
 	# Restaurar cursor estándar del sistema al salir del personaje
 	Input.set_custom_mouse_cursor(null)
-
