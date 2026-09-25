@@ -102,14 +102,13 @@ func _physics_process(_delta: float) -> void:
 		velocity = input_direction * SPEED
 
 		if not is_shooting:
-			var animation_name := get_walk_animation(input_direction)
-			_sprite.play(animation_name)
+			_sprite.play(Utility.get_direction("walk", input_direction))
 
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 
 		if not is_shooting:
-			_sprite.play("idle"+get_direction(last_direction))
+			_sprite.play(Utility.get_direction("idle",last_direction))
 
 	move_and_slide()
 
@@ -192,12 +191,8 @@ func _on_dash_started() -> void:
 
 	if _sprite:
 		_sprite.modulate.a = 0.6
-
 		var dash_direction: Vector2 = _dash_ability.dash_direction
-		var dash_animation: String = get_dash_animation(dash_direction)
-
-		print("💨 DASH: ", dash_animation)
-		_sprite.play(dash_animation)
+		_sprite.play(Utility.get_direction("dash",dash_direction))
 
 
 func _on_dash_finished() -> void:
@@ -206,7 +201,7 @@ func _on_dash_finished() -> void:
 
 		# Volver a la animación normal
 		if input_direction != Vector2.ZERO:
-			_sprite.play(get_walk_animation(input_direction))
+			_sprite.play(Utility.get_direction("walk",input_direction))
 		else:
 			_sprite.play("default")
 
@@ -246,6 +241,7 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 
 
 func _process_incoming_attack(source: Node2D) -> void:
+	var has_damage := false
 	if source == null or is_invulnerable:
 		return
 	# Ignorar si es el propio jugador, sus hijos o proyectiles del jugador
@@ -279,113 +275,6 @@ func _process_incoming_attack(source: Node2D) -> void:
 # ANIMACIONES
 #
 
-func get_walk_animation(direction: Vector2) -> String:
-	var angle := direction.angle()
-
-	# DERECHA
-	if angle >= -PI / 8 and angle < PI / 8:
-		return "walk_right"
-
-	# ABAJO-DERECHA
-	elif angle >= PI / 8 and angle < 3 * PI / 8:
-		return "walk_down_right"
-
-	# ABAJO
-	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
-		return "walk_down"
-
-	# ABAJO-IZQUIERDA
-	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
-		return "walk_down_left"
-
-	# IZQUIERDA
-	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
-		return "walk_left"
-
-	# ARRIBA-IZQUIERDA
-	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
-		return "walk_up_left"
-
-	# ARRIBA
-	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
-		return "walk_up"
-
-	# ARRIBA-DERECHA
-	else:
-		return "walk_up_right"
-		
-
-func get_shoot_animation(direction: Vector2) -> String:
-	var angle := direction.angle()
-
-	# DERECHA
-	if angle >= -PI / 8 and angle < PI / 8:
-		return "shoot_right"
-
-	# ABAJO-DERECHA
-	elif angle >= PI / 8 and angle < 3 * PI / 8:
-		return "shoot_down_right"
-
-	# ABAJO
-	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
-		return "shoot_down"
-
-	# ABAJO-IZQUIERDA
-	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
-		return "shoot_down_left"
-
-	# IZQUIERDA
-	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
-		return "shoot_left"
-
-	# ARRIBA-IZQUIERDA
-	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
-		return "shoot_up_left"
-
-	# ARRIBA
-	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
-		return "shoot_up"
-
-	# ARRIBA-DERECHA
-	else:
-		return "shoot_up_right"
-
-
-func get_direction(direction: Vector2) -> String:
-	var angle := direction.angle()
-
-	# DERECHA
-	
-	if angle >= -PI / 8 and angle < PI / 8:
-		return "_right"
-
-	# ABAJO-DERECHA
-	elif angle >= PI / 8 and angle < 3 * PI / 8:
-		return "_down_right"
-
-	# ABAJO
-	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
-		return "_down"
-
-	# ABAJO-IZQUIERDA
-	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
-		return "_down_left"
-
-	# IZQUIERDA
-	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
-		return "_left"
-
-	# ARRIBA-IZQUIERDA
-	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
-		return "_up_left"
-
-	# ARRIBA
-	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
-		return "_up"
-
-	# ARRIBA-DERECHA
-	else:
-		return "_up_right"
 
 func play_shoot_animation() -> void:
 	if is_shooting:
@@ -393,56 +282,8 @@ func play_shoot_animation() -> void:
 
 	is_shooting = true
 
-	var animation_name := get_shoot_animation(last_direction)
-
-	print("🔫 Dirección: ", last_direction)
-	print("🎬 Animación solicitada: ", animation_name)
-
-	if not _sprite.sprite_frames.has_animation(animation_name):
-		print("❌ NO EXISTE: ", animation_name)
-		is_shooting = false
-		return
-
-	print("✅ EXISTE: ", animation_name)
-
-	_sprite.play(animation_name)
+	_sprite.play(Utility.get_direction("shoot",last_direction))
 
 	await _sprite.animation_finished
 
 	is_shooting = false
-
-
-func get_dash_animation(direction: Vector2) -> String:
-	var angle := direction.angle()
-
-	# DERECHA
-	if angle >= -PI / 8 and angle < PI / 8:
-		return "dash_right"
-
-	# ABAJO-DERECHA
-	elif angle >= PI / 8 and angle < 3 * PI / 8:
-		return "dash_down_right"
-
-	# ABAJO
-	elif angle >= 3 * PI / 8 and angle < 5 * PI / 8:
-		return "dash_down"
-
-	# ABAJO-IZQUIERDA
-	elif angle >= 5 * PI / 8 and angle < 7 * PI / 8:
-		return "dash_down_left"
-
-	# IZQUIERDA
-	elif angle >= 7 * PI / 8 or angle < -7 * PI / 8:
-		return "dash_left"
-
-	# ARRIBA-IZQUIERDA
-	elif angle >= -7 * PI / 8 and angle < -5 * PI / 8:
-		return "dash_up_left"
-
-	# ARRIBA
-	elif angle >= -5 * PI / 8 and angle < -3 * PI / 8:
-		return "dash_up"
-
-	# ARRIBA-DERECHA
-	else:
-		return "dash_up_right"
