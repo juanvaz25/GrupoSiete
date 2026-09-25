@@ -6,18 +6,35 @@ extends CharacterBody2D
 
 
 #Variables generales
+@export_group("Estadísticas")
+## Nombre del enemigo
+@export var title: String = "The Goat"
+## Nombre y vida visible
+@export var title_and_health_visible: bool = true
+## Vida del enemigo
 @export var max_health: float = 100.0
+## Velocidad de movimiento base
 @export var speed: float = 700.0
+## Distancia a la que detecta al player
 @export var chase_distance: float = 280.0
+## Daño al tocar al personaje (0.5 según especificación).
+@export var contact_damage: float = 0.5
+
 
 var current_health: float
 var player: CharacterBody2D = null
 
-#Variables de enbestida
+
+@export_group("Habilidad: Embestida")
+## Velocidad cuando ejecuta Embestida
 @export var charge_speed: float = 1100.0
+## Cuanto tiempo dura la Embestida
 @export var charge_duration: float = 0.8
+## Cuanto tarda en prepararse para Embestir
 @export var charge_prepare_time: float = 0.5
+## Cooldown antes de poder voolver a Embestir
 @export var charge_cooldown: float = 2.0
+## Embestida predictiva (utilizar en velocidad baja)
 @export var advanced_charge: bool = false
 
 
@@ -28,16 +45,17 @@ var player_hit_this_charge := false
 
 
 @onready var hitbox: Area2D = $Hitbox
-@onready var health_bar: ProgressBar = $HealBarr
+@onready var health_bar: ProgressBar = $HealthBar
+@onready var boss_title: Label = $BossTitle
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
 		
 	sprite.play("default")
-	
+	boss_title.text = title
 	current_health = max_health
-	
-	hitbox.monitoring = false
+	boss_title.visible = title_and_health_visible
+	health_bar.visible = title_and_health_visible
 	
 	health_bar.max_value = max_health
 	health_bar.value = current_health
@@ -47,9 +65,14 @@ func _ready() -> void:
 
 	# Esperamos a que todos los nodos terminen su _ready()
 	await get_tree().process_frame
-
+	
 	var players := get_tree().get_nodes_in_group("player")
-
+	
+	if hitbox:
+		hitbox.set("damage", contact_damage)
+		hitbox.body_entered.connect(_on_hitbox_body_entered)
+		hitbox.area_entered.connect(_on_hitbox_body_entered)
+	
 	if players.size() > 0:
 		player = players[0] as CharacterBody2D
 		print("🎯 Player encontrado: ", player.name)
@@ -59,10 +82,7 @@ func _ready() -> void:
 
 #seguir al jugador
 func _physics_process(_delta: float) -> void:
-	if player == null:
-		return
-
-	if is_charging:
+	if player == null || is_charging:
 		return
 	
 	var distance := global_position.distance_to(player.global_position)
@@ -82,9 +102,19 @@ func _physics_process(_delta: float) -> void:
 			start_charge()
 
 
-# =========================
 # RECIBIR DAÑO
-# =========================
+func take_damage(amount: float) -> void:
+	current_health -= amount
+	current_health = max(current_health, 0.0)
+
+	health_bar.value = current_health
+
+	print("🐐 La Cabra recibió ", amount, " de daño")
+	print("❤️ Vida: ", current_health, "/", max_health)
+
+	if current_health <= 0:
+		die()
+
 
 func start_charge() -> void:
 	if not can_attack or is_charging:
@@ -116,8 +146,6 @@ func start_charging() -> void:
 	
 	print("🐐💨 ¡EMBESTIDA!")
 
-	# Activar hitbox
-	hitbox.monitoring = true
 	
 	var elapsed := 0.0
 	var distance := global_position.distance_to(player.global_position)
@@ -140,8 +168,6 @@ func start_charging() -> void:
 	# Termina la embestida
 	velocity = Vector2.ZERO
 
-	# Desactivar hitbox
-	hitbox.monitoring = false
 
 	is_charging = false
 	
@@ -154,41 +180,17 @@ func start_charging() -> void:
 	can_attack = true
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	if not is_charging:
-		return
-
-	if player_hit_this_charge:
-		return
 
 	if body.is_in_group("player"):
-		player_hit_this_charge = true
 
 		print("💥 ¡LA CABRA GOLPEÓ AL PLAYER!")
 
 		if body.has_method("take_damage"):
 			body.take_damage(1.0)
 
-func take_damage(amount: float) -> void:
-	current_health -= amount
-	current_health = max(current_health, 0.0)
-
-	health_bar.value = current_health
-
-	print("🐐 La Cabra recibió ", amount, " de daño")
-	print("❤️ Vida: ", current_health, "/", max_health)
-
-	if current_health <= 0:
-		die()
-		
-		
 # =========================
 # MUERTE
 # =========================
-
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	print("💥 HITBOX DETECTÓ AREA: ", area.name)
-	print("   Padre: ", area.get_parent().name)
-	
 
 func die() -> void:
 	print("💀 LA CABRA MURIÓ")
