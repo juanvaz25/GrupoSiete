@@ -38,6 +38,7 @@ var is_invulnerable: bool = false
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _dash_ability = get_node_or_null("DashAbility")
 @onready var _hurtbox: Area2D = get_node_or_null("Hurtbox")
+@onready var _ReveolverCylinder: TextureRect = get_node_or_null("RevolverCylinder")
 
 var _i_frame_timer: Timer = Timer.new()
 var _flash_tween: Tween
@@ -52,6 +53,8 @@ func _ready() -> void:
 	_i_frame_timer.wait_time = hit_i_frames
 	_i_frame_timer.timeout.connect(_on_i_frame_timeout)
 	add_child(_i_frame_timer)
+	
+	
 
 	# Conectar señales del Dash para invulnerabilidad durante esquiva
 	if _dash_ability:
@@ -279,7 +282,9 @@ func _process_incoming_attack(source: Node2D) -> void:
 func play_shoot_animation() -> void:
 	if is_shooting:
 		return
-
+	
+	#_ReveolverCylinder.texture = 
+	
 	is_shooting = true
 
 	_sprite.play(Utility.get_direction("shoot",last_direction))
