@@ -1628,6 +1628,7 @@ position = Vector2(0, 2)
 zoom = Vector2(0.5, 0.5)
 limit_enabled = false
 script = ExtResource("2_camera")
+follow_mouse = true
 
 [node name="ShootOrigin" type="Marker2D" parent="." unique_id=1969359081]
 position = Vector2(-3, -74)
