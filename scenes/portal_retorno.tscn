@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://drsc7em6pj38i"]
+
+[ext_resource type="Script" uid="uid://cportalscr1" path="res://scripts/portal_retorno.gd" id="1_portal"]
+[ext_resource type="AudioStream" uid="uid://cportalopenwav" path="res://assets/Sonidos/portal_open.wav" id="2_portalaudio"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_portal"]
+radius = 42.0
+
+[sub_resource type="Gradient" id="Gradient_portal"]
+offsets = PackedFloat32Array(0, 0.35, 0.7, 1)
+colors = PackedColorArray(0.9, 1, 1, 1, 0.3, 0.8, 1, 0.9, 0.7, 0.2, 1, 0.7, 0.1, 0.05, 0.4, 0)
+
+[node name="PortalRetorno" type="Area2D"]
+z_index = 5
+collision_layer = 0
+collision_mask = 17
+script = ExtResource("1_portal")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_portal")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 45
+lifetime = 1.0
+speed_scale = 1.2
+emission_shape = 1
+emission_sphere_radius = 28.0
+gravity = Vector2(0, -20)
+radial_accel_min = -35.0
+radial_accel_max = -15.0
+tangential_accel_min = 40.0
+tangential_accel_max = 80.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+color_ramp = SubResource("Gradient_portal")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_portalaudio")
+volume_db = 2.0
+bus = &"Master"
+
+[node name="Label" type="Label" parent="."]
+offset_left = -110.0
+offset_top = -65.0
+offset_right = 110.0
+offset_bottom = -45.0
+theme_override_colors/font_color = Color(0.8, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "🌀 Entrar al Portal"
+horizontal_alignment = 1

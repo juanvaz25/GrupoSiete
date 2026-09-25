@@ -20,6 +20,9 @@ var _time_alive: float = 0.0
 
 
 func _ready() -> void:
+	add_to_group("player_projectile")
+	add_to_group("player")
+
 	# Rotar para apuntar en la dirección de movimiento
 	rotation = direction.angle()
 

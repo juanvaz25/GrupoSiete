@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://c67basiliskfire"]
+
+[ext_resource type="Script" uid="uid://cbasfireball1" path="res://scripts/projectiles/basilisk_fireball.gd" id="1_fireball"]
+[ext_resource type="Texture2D" uid="uid://cfreballtex1" path="res://assets/AssetsBullets/fireball.png" id="2_firetex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fire"]
+radius = 18.0
+
+[sub_resource type="Gradient" id="Gradient_trail"]
+offsets = PackedFloat32Array(0, 0.4, 0.8, 1)
+colors = PackedColorArray(1, 0.9, 0.3, 1, 1, 0.4, 0.05, 0.9, 0.8, 0.1, 0.05, 0.6, 0.2, 0.05, 0.05, 0)
+
+[sub_resource type="Gradient" id="Gradient_exp"]
+offsets = PackedFloat32Array(0, 0.3, 0.7, 1)
+colors = PackedColorArray(1, 1, 0.7, 1, 1, 0.5, 0.1, 0.9, 0.9, 0.2, 0.05, 0.7, 0.3, 0.05, 0.05, 0)
+
+[node name="BasiliskFireball" type="Area2D"]
+z_index = 4
+collision_layer = 8
+collision_mask = 19
+script = ExtResource("1_fireball")
+
+[node name="TrailParticles" type="CPUParticles2D" parent="."]
+amount = 28
+lifetime = 0.45
+speed_scale = 1.2
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2(-1, 0)
+spread = 25.0
+gravity = Vector2(0, -10)
+initial_velocity_min = 40.0
+initial_velocity_max = 80.0
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+color_ramp = SubResource("Gradient_trail")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_firetex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fire")
+
+[node name="ExplosionParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 35
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 70.0
+initial_velocity_max = 160.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+color_ramp = SubResource("Gradient_exp")
