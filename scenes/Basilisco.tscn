@@ -635,14 +635,20 @@ horizontal_alignment = 1
 [node name="AudioFire" type="AudioStreamPlayer2D" parent="." unique_id=1653013817]
 stream = ExtResource("10_fireaudio")
 volume_db = 1.0
+bus = &"SFX"
 
 [node name="AudioCharge" type="AudioStreamPlayer2D" parent="." unique_id=728383155]
 stream = ExtResource("11_chargeaudio")
 volume_db = 2.0
+bus = &"SFX"
 
 [node name="AudioHit" type="AudioStreamPlayer2D" parent="." unique_id=1357745916]
 stream = ExtResource("12_hitaudio")
+volume_db = 0.0
+bus = &"SFX"
 
 [node name="AudioDeath" type="AudioStreamPlayer2D" parent="." unique_id=1409828167]
 stream = ExtResource("13_deathaudio")
 volume_db = 3.0
+bus = &"SFX"
+

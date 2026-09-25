@@ -38,6 +38,7 @@ var is_invulnerable: bool = false
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _dash_ability = get_node_or_null("DashAbility")
 @onready var _hurtbox: Area2D = get_node_or_null("Hurtbox")
+@onready var _ReveolverCylinder: TextureRect = get_node_or_null("RevolverCylinder")
 
 var _i_frame_timer: Timer = Timer.new()
 var _flash_tween: Tween
@@ -52,6 +53,8 @@ func _ready() -> void:
 	_i_frame_timer.wait_time = hit_i_frames
 	_i_frame_timer.timeout.connect(_on_i_frame_timeout)
 	add_child(_i_frame_timer)
+	
+	
 
 	# Conectar señales del Dash para invulnerabilidad durante esquiva
 	if _dash_ability:
@@ -64,6 +67,9 @@ func _ready() -> void:
 	if _hurtbox:
 		_hurtbox.area_entered.connect(_on_hurtbox_area_entered)
 		_hurtbox.body_entered.connect(_on_hurtbox_body_entered)
+
+	# Configurar puntero del mouse tipo 'X' (mira para apuntar) durante el juego
+	_setup_custom_crosshair()
 
 
 func _physics_process(_delta: float) -> void:
@@ -279,7 +285,9 @@ func _process_incoming_attack(source: Node2D) -> void:
 func play_shoot_animation() -> void:
 	if is_shooting:
 		return
-
+	
+	#_ReveolverCylinder.texture = 
+	
 	is_shooting = true
 
 	_sprite.play(Utility.get_direction("shoot",last_direction))
@@ -287,3 +295,20 @@ func play_shoot_animation() -> void:
 	await _sprite.animation_finished
 
 	is_shooting = false
+
+
+func _setup_custom_crosshair() -> void:
+	var crosshair_texture: Texture2D = null
+	if ResourceLoader.exists("res://assets/crosshair.png"):
+		crosshair_texture = load("res://assets/crosshair.png")
+	if not crosshair_texture and FileAccess.file_exists("res://assets/crosshair.png"):
+		var img := Image.load_from_file("res://assets/crosshair.png")
+		if img:
+			crosshair_texture = ImageTexture.create_from_image(img)
+	if crosshair_texture:
+		Input.set_custom_mouse_cursor(crosshair_texture, Input.CURSOR_ARROW, Vector2(16, 16))
+
+
+func _exit_tree() -> void:
+	# Restaurar cursor estándar del sistema al salir del personaje
+	Input.set_custom_mouse_cursor(null)
