@@ -18,7 +18,7 @@ var player: CharacterBody2D = null
 @export var charge_duration: float = 0.8
 @export var charge_prepare_time: float = 0.5
 @export var charge_cooldown: float = 2.0
-
+@export var advanced_charge: bool = false
 
 
 var is_charging: bool = false
@@ -202,15 +202,17 @@ func start_charging() -> void:
 
 	# Activar hitbox
 	hitbox.monitoring = true
-
+	
 	var elapsed := 0.0
 	var distance := global_position.distance_to(player.global_position)
 	var travel_time := distance / charge_speed
 	var prediction_time := charge_prepare_time + travel_time
 	var predicted_position := player.global_position + player.velocity * prediction_time
-
-	charge_direction = global_position.direction_to(predicted_position)
-	
+	if advanced_charge:
+		charge_direction = global_position.direction_to(predicted_position)
+	else:
+		charge_direction = global_position.direction_to(player.global_position)
+		
 	while elapsed < charge_duration:
 		velocity = charge_direction * charge_speed
 		move_and_slide()

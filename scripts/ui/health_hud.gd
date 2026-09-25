@@ -30,10 +30,11 @@ func _ready() -> void:
 func _is_boss_room() -> bool:
 	if always_show:
 		return true
-	var current_scene := get_tree().current_scene
-	if current_scene == null:
+	var tree := get_tree()
+	if tree == null or tree.current_scene == null:
 		return false
 	
+	var current_scene := tree.current_scene
 	if current_scene.is_in_group("boss_room"):
 		return true
 	

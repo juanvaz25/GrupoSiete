@@ -67,7 +67,11 @@ func _shoot() -> void:
 	bullet.direction = direction
 
 	# Agregar al árbol
-	_player.get_tree().current_scene.add_child(bullet)
+	var tree := _player.get_tree() if _player else null
+	if tree and tree.current_scene:
+		tree.current_scene.add_child(bullet)
+	elif _player and _player.get_parent():
+		_player.get_parent().add_child(bullet)
 
 	# Retroceso leve sobre el jugador
 	if _player is CharacterBody2D:
