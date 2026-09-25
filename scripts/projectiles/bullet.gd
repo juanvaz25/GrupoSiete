@@ -86,7 +86,9 @@ func _on_area_entered(area: Area2D) -> void:
 
 func _is_player_node(node: Node) -> bool:
 	if node == null:
-		return false
+		print("Nodo Nulo")
+		return true
+	print("Nombre del Nodo: "+ node.name)
 	if node.name == "Player" or node.is_in_group("player"):
 		return true
 	if node.get_parent() != null and (node.get_parent().name == "Player" or node.get_parent().is_in_group("player")):

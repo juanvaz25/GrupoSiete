@@ -1059,16 +1059,16 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u5o06"]
-radius = 93.59
-height = 187.18
+radius = 50.0
+height = 100.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3mmjt"]
-radius = 83.85
-height = 167.7
+radius = 80.0
+height = 160.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kmedt"]
-radius = 88.105
-height = 176.21
+radius = 80.0
+height = 160.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1584783754]
 z_index = 3
@@ -1079,39 +1079,37 @@ script = ExtResource("1_ddbqi")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=151757495]
 position = Vector2(-5, -135.5)
 sprite_frames = SubResource("SpriteFrames_snw0h")
-animation = &"walk_left"
+animation = &"charge_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1424625182]
 z_index = 1
-position = Vector2(-2, -100.5)
+position = Vector2(6, -114.5)
 shape = SubResource("CapsuleShape2D_u5o06")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=119750057]
 z_index = 1
-position = Vector2(-7, -126.5)
+position = Vector2(253, -119)
 collision_layer = 4
 collision_mask = 15
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1068125056]
-position = Vector2(9, 0)
+position = Vector2(-246, 0)
 shape = SubResource("CapsuleShape2D_3mmjt")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1792954813]
-position = Vector2(-7, -130.5)
+position = Vector2(7, -119)
 collision_layer = 3
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=556376602]
-position = Vector2(12, 20)
 shape = SubResource("CapsuleShape2D_kmedt")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=650274674]
-position = Vector2(-7, -126.5)
+position = Vector2(7, -115)
 collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1608622973]
-position = Vector2(6, 20)
 shape = SubResource("CapsuleShape2D_kmedt")
 
 [node name="HealBarr" type="ProgressBar" parent="." unique_id=1047916993]

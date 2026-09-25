@@ -247,7 +247,7 @@ func _process_incoming_attack(source: Node2D) -> void:
 		return
 	if source.name.begins_with("Bullet") or source.name.begins_with("RifleBullet"):
 		return
-
+	#print("Daño recibido de fuente: " + source.name)
 	var incoming_dmg: float = 1.0
 	if source.get("damage") != null:
 		incoming_dmg = float(source.get("damage"))

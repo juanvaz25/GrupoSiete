@@ -1834,6 +1834,7 @@ scale = Vector2(0.8, 0.8)
 collision_layer = 524290
 collision_mask = 5
 speed = 400.0
+chase_distance = 600.0
 charge_speed = 2500.0
 charge_duration = 0.6
 charge_prepare_time = 1.5
@@ -1848,6 +1849,7 @@ speed = 600.0
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
+advanced_charge = true
 
 [node name="Goat2" parent="TileMapsLayers" unique_id=1584783754 instance=ExtResource("8_m3sjd")]
 position = Vector2(-815.99994, -2675)
@@ -1858,6 +1860,7 @@ speed = 600.0
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
+advanced_charge = true
 
 [node name="Goat5" parent="TileMapsLayers" unique_id=959658841 instance=ExtResource("8_m3sjd")]
 position = Vector2(-292, -2626)
@@ -1868,6 +1871,7 @@ speed = 600.0
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
+advanced_charge = true
 
 [node name="Goat6" parent="TileMapsLayers" unique_id=2111517644 instance=ExtResource("8_m3sjd")]
 position = Vector2(-780.99994, -3156)
@@ -1878,6 +1882,7 @@ speed = 600.0
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
+advanced_charge = true
 
 [node name="Goat3" parent="TileMapsLayers" unique_id=1520618760 instance=ExtResource("8_m3sjd")]
 position = Vector2(-550, -3047)
@@ -1888,14 +1893,14 @@ speed = 600.0
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
+advanced_charge = true
 
 [node name="Player" parent="TileMapsLayers" unique_id=318955597 instance=ExtResource("6_pau3h")]
 position = Vector2(61, 40)
 collision_mask = 524293
 
 [node name="Limites" type="StaticBody2D" parent="." unique_id=1082037851]
-collision_layer = 7
-collision_mask = 7
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Limites" unique_id=232474285]
 z_index = 5
