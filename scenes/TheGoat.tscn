@@ -1113,7 +1113,7 @@ shape = SubResource("CapsuleShape2D_u5o06")
 z_index = 1
 position = Vector2(253, -119)
 collision_layer = 4
-collision_mask = 15
+collision_mask = 4
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1068125056]
 position = Vector2(-246, 0)
@@ -1121,8 +1121,8 @@ shape = SubResource("CapsuleShape2D_3mmjt")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1792954813]
 position = Vector2(7, -119)
-collision_layer = 8
-collision_mask = 19
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=556376602]
 position = Vector2(1, -1)
@@ -1137,7 +1137,7 @@ scale = Vector2(2, 2)
 theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_font_sizes/font_size = 14
-text = "The Goat
+text = "La Chiva
 "
 horizontal_alignment = 1
 

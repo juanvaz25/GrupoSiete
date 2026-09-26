@@ -39,6 +39,10 @@
 [ext_resource type="Texture2D" uid="uid://ciabskwy5ql3y" path="res://assets/AssetsHUD/tambor5.png" id="36_yrxk4"]
 [ext_resource type="Texture2D" uid="uid://38vjhcwmgy0c" path="res://assets/AssetsHUD/tambor6.png" id="37_eg1p0"]
 [ext_resource type="Texture2D" uid="uid://jqvxs82wqqvw" path="res://assets/AssetsHUD/tambor7.png" id="38_fq1a3"]
+[ext_resource type="AudioStream" uid="uid://ps5pspfqcuqs" path="res://assets/Sonidos/revolver_shoot.mp3" id="40_gu4mg"]
+[ext_resource type="AudioStream" uid="uid://dhpmkjst6xawd" path="res://assets/Sonidos/revolver_empty.mp3" id="41_tk6la"]
+[ext_resource type="AudioStream" uid="uid://cwrs54brpybnq" path="res://assets/Sonidos/rifle_shoot.mp3" id="42_yrxk4"]
+[ext_resource type="AudioStream" uid="uid://dkbu2rm7x8mhu" path="res://assets/Sonidos/riflevacio.mp3" id="43_eg1p0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2yprt"]
 atlas = ExtResource("3_axnmu")
@@ -1616,8 +1620,8 @@ shape = SubResource("CapsuleShape2D_o5u46")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=559156980]
 position = Vector2(-13, -40)
-collision_layer = 0
-collision_mask = 2
+collision_layer = 4
+collision_mask = 6
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1224537088]
 position = Vector2(10, -33)
@@ -1628,7 +1632,6 @@ position = Vector2(0, 2)
 zoom = Vector2(0.5, 0.5)
 limit_enabled = false
 script = ExtResource("2_camera")
-follow_mouse = true
 
 [node name="ShootOrigin" type="Marker2D" parent="." unique_id=1969359081]
 position = Vector2(-3, -74)
@@ -1694,3 +1697,15 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("31_fvsjc")
 expand_mode = 1
+
+[node name="AudioDisparo" type="AudioStreamPlayer2D" parent="." unique_id=781433215]
+stream = ExtResource("40_gu4mg")
+
+[node name="AudioSinBalas" type="AudioStreamPlayer2D" parent="." unique_id=450548187]
+stream = ExtResource("41_tk6la")
+
+[node name="AudioRifle" type="AudioStreamPlayer2D" parent="." unique_id=65945216]
+stream = ExtResource("42_yrxk4")
+
+[node name="AudioRifleVacio" type="AudioStreamPlayer2D" parent="." unique_id=1797535059]
+stream = ExtResource("43_eg1p0")

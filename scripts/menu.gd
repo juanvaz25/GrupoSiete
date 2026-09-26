@@ -1,11 +1,11 @@
 extends Control
 
 ## Control del Menú Principal
-## - JUGAR: Lleva a la biblioteca (res://scenes/nivel_inicial.tscn)
+## - JUGAR: Lleva a la biblioteca (res://scenes/hisotria_inicial.tscn)
 ## - CONFIGURACIÓN: Permite editar el volumen de Música y SFX
 ## - SALIR: Cierra el juego
 
-@export_file("*.tscn") var biblioteca_scene: String = "res://scenes/nivel_inicial.tscn"
+@export_file("*.tscn") var biblioteca_scene: String = "res://scenes/hisotria_inicial.tscn"
 
 # Botones principales
 @onready var button_jugar: Button = $VBoxContainer/ButtonJugar

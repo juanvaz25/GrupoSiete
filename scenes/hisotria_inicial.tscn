@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c4ylu4h8w0h6q"]
 
 [ext_resource type="Script" uid="uid://bommtmn614y62" path="res://scripts/hisotria_inicial.gd" id="1_6me08"]
+[ext_resource type="VideoStream" uid="uid://b44y2erq0wmxv" path="res://assets/VideosHistoria/VideoIntro.ogv" id="2_uxqcd"]
 
 [node name="HisotriaInicial" type="Control" unique_id=2109935746]
 layout_mode = 3
@@ -18,6 +19,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+stream = ExtResource("2_uxqcd")
+volume_db = -80.0
+speed_scale = 0.4
 
 [node name="BotonSiguiente" type="Button" parent="." unique_id=664149716]
 layout_mode = 1

@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 	_time_alive += delta
 
-	# Destruir tras 15 segundos si no impactó nada
+	# Destruir tras 15 segundos si no impactó nadaa
 	if _time_alive >= lifetime:
 		queue_free()
 

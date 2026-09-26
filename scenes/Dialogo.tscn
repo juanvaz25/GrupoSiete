@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://djrtsboejryy4"]
+
+[ext_resource type="Script" uid="uid://cutq6ydmk5mjf" path="res://scripts/dialogo.gd" id="1_8newl"]
+
+[node name="Dialogo" type="CanvasLayer" unique_id=293385110]
+script = ExtResource("1_8newl")
+
+[node name="Panel" type="Panel" parent="." unique_id=684773695]
+z_index = 1500
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -142.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Portrait" type="TextureRect" parent="Panel" unique_id=1507702782]
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 140.0
+expand_mode = 1
+
+[node name="Nombre" type="Label" parent="Panel" unique_id=937140101]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 43.0
+
+[node name="Texto" type="Label" parent="Panel" unique_id=1440380848]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 60.0
+offset_right = 1080.0
+offset_bottom = 150.0
+
+[node name="Continuar" type="Label" parent="Panel" unique_id=1888892056]
+layout_mode = 0
+offset_left = 783.0
+offset_top = 109.0
+offset_right = 961.0
+offset_bottom = 132.0
+text = "Enter para continuar"
