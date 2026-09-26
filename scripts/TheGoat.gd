@@ -215,7 +215,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if target.has_method("take_damage"):
 			target.take_damage(1.0)
 	
->>>>>>> Stashed changes:scripts/character_body_2d.gd
+
 
 func die() -> void:
 	print("💀 LA CABRA MURIÓ")

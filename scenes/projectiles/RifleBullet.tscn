@@ -58,8 +58,9 @@ script = ExtResource("1_rifle_bullet")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=423851259]
 modulate = Color(1, 0.843137, 0.2, 1)
+z_index = 2
 position = Vector2(-12, 0)
-scale = Vector2(0.18270445, 0.19690727)
+scale = Vector2(0.2, 0.216)
 sprite_frames = SubResource("SpriteFrames_vlew8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=163419400]

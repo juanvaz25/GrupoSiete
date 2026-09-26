@@ -11,7 +11,7 @@ func _ready() -> void:
 	# Conectamos el botón
 	boton.pressed.connect(_siguiente)
 
-	# Cuando termina el video, pasamos automáticamente a la siguiente escena
+	# Cuando termina el video, pasamos automáticamente al nivel
 	video.finished.connect(_video_terminado)
 
 
@@ -22,5 +22,7 @@ func _siguiente() -> void:
 
 
 func _video_terminado() -> void:
-	# Cuando termina el video automáticamente
+	print("🎬 Cinemática terminada")
+	print("➡️ Pasando a nivel_inicial.tscn")
+
 	get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
