@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="GrupoSiete"
-run/main_scene="uid://b2wgyvex2bjld"
+run/main_scene="uid://c0lfk12lnmol6"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://ciirmnxb1k528"
 
 [autoload]
 
