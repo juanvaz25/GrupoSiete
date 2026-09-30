@@ -27,6 +27,12 @@ var _can_shoot: bool = true
 	_player.get_node_or_null("AudioRifleVacio")
 
 func _ready() -> void:
+	# Asegurar que el audio pertenezca al bus SFX de la configuración
+	if _audio_audiorifle:
+		_audio_audiorifle.bus = &"SFX"
+	if _audio_audioriflevacio:
+		_audio_audioriflevacio.bus = &"SFX"
+
 	if _rifle_bar:
 		_rifle_bar.min_value = 0.0
 		_rifle_bar.max_value = 100.0

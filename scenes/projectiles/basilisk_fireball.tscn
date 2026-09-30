@@ -1,14 +1,14 @@
-[gd_scene format=3 uid="uid://c67basiliskfire"]
+[gd_scene format=3 uid="uid://0osyykd4n6n7"]
 
-[ext_resource type="Script" uid="uid://cbasfireball1" path="res://scripts/projectiles/basilisk_fireball.gd" id="1_fireball"]
-[ext_resource type="Texture2D" uid="uid://cfreballtex1" path="res://assets/AssetsBullets/fireball.png" id="2_firetex"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_fire"]
-radius = 18.0
+[ext_resource type="Script" uid="uid://dbus7vbhp7181" path="res://scripts/projectiles/basilisk_fireball.gd" id="1_fireball"]
+[ext_resource type="Texture2D" uid="uid://ctek2hrkljgsr" path="res://assets/AssetsBullets/fireball.png" id="2_firetex"]
 
 [sub_resource type="Gradient" id="Gradient_trail"]
 offsets = PackedFloat32Array(0, 0.4, 0.8, 1)
 colors = PackedColorArray(1, 0.9, 0.3, 1, 1, 0.4, 0.05, 0.9, 0.8, 0.1, 0.05, 0.6, 0.2, 0.05, 0.05, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fire"]
+radius = 18.0
 
 [sub_resource type="Gradient" id="Gradient_exp"]
 offsets = PackedFloat32Array(0, 0.3, 0.7, 1)

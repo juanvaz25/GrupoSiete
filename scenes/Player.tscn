@@ -1700,12 +1700,16 @@ expand_mode = 1
 
 [node name="AudioDisparo" type="AudioStreamPlayer2D" parent="." unique_id=781433215]
 stream = ExtResource("40_gu4mg")
+bus = &"SFX"
 
 [node name="AudioSinBalas" type="AudioStreamPlayer2D" parent="." unique_id=450548187]
 stream = ExtResource("41_tk6la")
+bus = &"SFX"
 
 [node name="AudioRifle" type="AudioStreamPlayer2D" parent="." unique_id=65945216]
 stream = ExtResource("42_yrxk4")
+bus = &"SFX"
 
 [node name="AudioRifleVacio" type="AudioStreamPlayer2D" parent="." unique_id=1797535059]
 stream = ExtResource("43_eg1p0")
+bus = &"SFX"

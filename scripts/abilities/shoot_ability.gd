@@ -46,6 +46,12 @@ var _is_reloading: bool = false
 func _ready() -> void:
 	_ammo = magazine_size
 
+	# Asegurar que el audio pertenezca al bus SFX de la configuración
+	if _audio_disparo:
+		_audio_disparo.bus = &"SFX"
+	if _audio_sinbala:
+		_audio_sinbala.bus = &"SFX"
+
 	print("🔫 ShootAbility iniciado")
 	print("Munición inicial: ", _ammo)
 
