@@ -10,12 +10,22 @@ extends CharacterBody2D
 ## Velocidad base de movimiento (px/s).
 const SPEED := 500.0
 
+@export_group("Estadisticas")
 ## Salud máxima del personaje.
 @export var max_health: float = 3.0
 ## Duración de invulnerabilidad temporal al recibir un golpe (segundos).
 @export var hit_i_frames: float = 0.8
 ## Escena a la que se regresa si la vida llega a 0 ("echado de la sala").
 @export var initial_room_scene: String = "res://scenes/nivel_inicial.tscn"
+
+@export_group("Daño por fuego")
+@export var fire_grace_time: float = 3.0
+@export var fire_damage_interval: float = 1.0
+@export var fire_damage_amount: float = 0.5
+
+var _active_fires: Array[Area2D] = []
+var _fire_exposure: float = 0.0
+var _next_fire_damage: float = 3.0
 
 # --- Señales ---
 signal health_changed(current_health: float, max_health: float)
@@ -54,7 +64,7 @@ func _ready() -> void:
 	_i_frame_timer.timeout.connect(_on_i_frame_timeout)
 	add_child(_i_frame_timer)
 	
-	
+	_next_fire_damage = fire_grace_time
 
 	# Conectar señales del Dash para invulnerabilidad durante esquiva
 	if _dash_ability:
@@ -80,7 +90,7 @@ func _physics_process(_delta: float) -> void:
 		"move_up",
 		"move_down"
 	)
-
+	
 	# Guardar última dirección válida
 	if input_direction != Vector2.ZERO:
 		last_direction = input_direction.normalized()
@@ -117,7 +127,11 @@ func _physics_process(_delta: float) -> void:
 			_sprite.play(Utility.get_direction("idle",last_direction))
 
 	move_and_slide()
-
+	
+	# =========================
+	# Daño por fuego
+	# =========================
+	_update_fire_damage(_delta)
 
 # --- Sistema de Vida y Daño ---
 
@@ -307,6 +321,37 @@ func _setup_custom_crosshair() -> void:
 			crosshair_texture = ImageTexture.create_from_image(img)
 	if crosshair_texture:
 		Input.set_custom_mouse_cursor(crosshair_texture, Input.CURSOR_ARROW, Vector2(16, 16))
+
+#region Nacion del fuego
+func enter_fire(fire: Area2D) -> void:
+	if not _active_fires.has(fire):
+		_active_fires.append(fire)
+
+
+func exit_fire(fire: Area2D) -> void:
+	_active_fires.erase(fire)
+
+
+func _update_fire_damage(delta: float) -> void:
+	# Limpiar fuegos que fueron eliminados.
+	for index in range(_active_fires.size() - 1, -1, -1):
+		if not is_instance_valid(_active_fires[index]):
+			_active_fires.remove_at(index)
+
+	# Fuera del fuego: reiniciar el contador.
+	if _active_fires.is_empty():
+		_fire_exposure = 0.0
+		_next_fire_damage = fire_grace_time
+		return
+
+	_fire_exposure += delta
+
+	if _fire_exposure >= _next_fire_damage:
+		_next_fire_damage = _fire_exposure + maxf(
+			fire_damage_interval, 0.01
+		)
+		take_damage(fire_damage_amount)
+#endregion
 
 
 func _exit_tree() -> void:

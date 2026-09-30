@@ -42,9 +42,9 @@ collision_mask = 5
 script = ExtResource("1_bullet")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=286517796]
-z_index = 3
+z_index = 14
 position = Vector2(-1.9999924, -2.9999962)
-scale = Vector2(0.22727273, 0.26595744)
+scale = Vector2(0.3, 0.352)
 sprite_frames = SubResource("SpriteFrames_bekt7")
 frame = 2
 frame_progress = 0.6664158

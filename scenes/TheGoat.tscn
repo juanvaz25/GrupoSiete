@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dm8ybttayyleu"]
 
-[ext_resource type="Script" uid="uid://dxaf6kdjmigu0" path="res://scripts/character_body_2d.gd" id="1_ddbqi"]
+[ext_resource type="Script" uid="uid://dxaf6kdjmigu0" path="res://scripts/TheGoat.gd" id="1_ddbqi"]
+[ext_resource type="Script" uid="uid://cd4k4poplutoq" path="res://scripts/abilities/fire_trail_emitter.gd" id="2_28q2t"]
 [ext_resource type="Texture2D" uid="uid://x5obtvovavj1" path="res://assets/AssetsTheGoat/charge_down_left.png" id="2_db3cc"]
 [ext_resource type="Texture2D" uid="uid://ts6tntldvvnk" path="res://assets/AssetsTheGoat/IDLETHEGOAT.png" id="2_ddbqi"]
 [ext_resource type="Texture2D" uid="uid://bbqlbrf681jdc" path="res://assets/AssetsTheGoat/charge_left.png" id="3_xgkgh"]
@@ -1076,6 +1077,9 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_ddbqi")
 
+[node name="FireTrailEmitter" type="Node2D" parent="." unique_id=17131826]
+script = ExtResource("2_28q2t")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=151757495]
 position = Vector2(-5, -135.5)
 sprite_frames = SubResource("SpriteFrames_snw0h")
@@ -1090,7 +1094,7 @@ shape = SubResource("CapsuleShape2D_u5o06")
 z_index = 1
 position = Vector2(253, -119)
 collision_layer = 4
-collision_mask = 15
+collision_mask = 4
 
 [node name="HurtboxShape" type="CollisionShape2D" parent="Hurtbox" unique_id=1068125056]
 position = Vector2(-246, 0)
@@ -1098,16 +1102,24 @@ shape = SubResource("CapsuleShape2D_3mmjt")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1792954813]
 position = Vector2(7, -119)
-collision_layer = 3
+collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=556376602]
 shape = SubResource("CapsuleShape2D_kmedt")
 
-[node name="AttackArea" type="Area2D" parent="." unique_id=650274674]
-position = Vector2(7, -115)
-collision_layer = 8
-collision_mask = 0
+[node name="BossTitle" type="Label" parent="." unique_id=1991195645]
+offset_left = -189.0
+offset_top = -311.0
+offset_right = 11.0
+offset_bottom = -264.0
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 14
+text = "La Chiva
+"
+horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1608622973]
 shape = SubResource("CapsuleShape2D_kmedt")

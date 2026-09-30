@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bhtmd35nwgmue"]
+
+[ext_resource type="Script" uid="uid://dbji6h70ambr3" path="res://scripts/abilities/fire_trail.gd" id="1_ddjg1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fire"]
+radius = 18.0
+
+[sub_resource type="Gradient" id="Gradient_trail"]
+offsets = PackedFloat32Array(0, 0.4, 0.8, 1)
+colors = PackedColorArray(1, 0.9, 0.3, 1, 1, 0.4, 0.05, 0.9, 0.8, 0.1, 0.05, 0.6, 0.2, 0.05, 0.05, 0)
+
+[node name="FireTrail" type="Area2D" unique_id=1556778431]
+z_index = 4
+collision_layer = 0
+input_pickable = false
+monitorable = false
+script = ExtResource("1_ddjg1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1221245411]
+visible = false
+shape = SubResource("CircleShape2D_fire")
+
+[node name="FireParticles" type="CPUParticles2D" parent="." unique_id=164505461]
+rotation = 1.8084466
+amount = 6
+lifetime = 0.45
+speed_scale = 1.2
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2(-1, 0)
+spread = 25.0
+gravity = Vector2(0, -10)
+initial_velocity_min = 40.0
+initial_velocity_max = 80.0
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+color_ramp = SubResource("Gradient_trail")
+
+[node name="BurnTimer" type="Timer" parent="." unique_id=1761734331]

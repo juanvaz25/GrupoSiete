@@ -10,6 +10,8 @@ extends CanvasLayer
 @export var tambor_6: Texture2D
 @export var tambor_7: Texture2D
 
+
+var is_reloading: bool = false
 var ammo: int = 6
 
 
@@ -19,20 +21,34 @@ func _ready() -> void:
 	# Mostrar el tambor lleno al comenzar
 	update_ammo(6)
 
-func reload_ammo() -> void:
-	if ammo > 0:
+
+func reload_ammo(duracion: float = 1.5) -> void:
+	if is_reloading:
 		return
 
-	print("🔄 Recargando tambor...")
+	is_reloading = true
 
-	await get_tree().create_timer(0.2).timeout
+	print("🔄 RECARGANDO...")
+
+	# Mostrar el tambor completamente vacío
+	update_ammo(0)
+
+	# Esperar un poquito para que se vea tambor_7
+	await get_tree().create_timer(0.20).timeout
+
+	# El tiempo restante se reparte entre las 6 balas
+	var tiempo_restante := duracion - 0.20
+	var tiempo_por_bala := tiempo_restante / 6.0
 
 	for nueva_municion in range(1, 7):
 		update_ammo(nueva_municion)
-		await get_tree().create_timer(0.12).timeout
 
-	print("🔫 Tambor recargado")
+		await animate_cylinder_step(tiempo_por_bala)
 
+	is_reloading = false
+
+	print("🔫 RECARGA VISUAL COMPLETA")
+	
 func update_ammo(cantidad: int) -> void:
 	ammo = clamp(cantidad, 0, 6)
 
@@ -51,3 +67,33 @@ func update_ammo(cantidad: int) -> void:
 			revolver_cylinder.texture = tambor_6
 		0:
 			revolver_cylinder.texture = tambor_7
+			
+func animate_cylinder_step(duracion: float) -> void:
+	var tween := create_tween()
+
+	var posicion_original := revolver_cylinder.position
+
+	var tiempo_movimiento := duracion / 3.0
+
+	tween.tween_property(
+		revolver_cylinder,
+		"position",
+		posicion_original + Vector2(-3, 0),
+		tiempo_movimiento
+	)
+
+	tween.tween_property(
+		revolver_cylinder,
+		"position",
+		posicion_original + Vector2(3, 0),
+		tiempo_movimiento
+	)
+
+	tween.tween_property(
+		revolver_cylinder,
+		"position",
+		posicion_original,
+		tiempo_movimiento
+	)
+
+	await tween.finished

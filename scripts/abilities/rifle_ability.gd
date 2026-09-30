@@ -20,9 +20,19 @@ var _can_shoot: bool = true
 @onready var _player: CharacterBody2D = get_parent()
 @onready var _shoot_origin: Marker2D = _player.get_node_or_null("ShootOrigin")
 @onready var _rifle_bar: ProgressBar = _player.get_node_or_null("RifleBar")
+@onready var _audio_audiorifle: AudioStreamPlayer2D = \
+	_player.get_node_or_null("AudioRifle")
 
+@onready var _audio_audioriflevacio: AudioStreamPlayer2D = \
+	_player.get_node_or_null("AudioRifleVacio")
 
 func _ready() -> void:
+	# Asegurar que el audio pertenezca al bus SFX de la configuración
+	if _audio_audiorifle:
+		_audio_audiorifle.bus = &"SFX"
+	if _audio_audioriflevacio:
+		_audio_audioriflevacio.bus = &"SFX"
+
 	if _rifle_bar:
 		_rifle_bar.min_value = 0.0
 		_rifle_bar.max_value = 100.0
@@ -46,6 +56,12 @@ func _shoot() -> void:
 		return
 
 	if not _can_shoot:
+		if _audio_audioriflevacio:
+			_audio_audioriflevacio.stop()
+			_audio_audioriflevacio.play()
+		else:
+			print("⚠️ No se encontró AudioRifleVacio")
+
 		return
 
 	_can_shoot = false
@@ -73,11 +89,16 @@ func _shoot() -> void:
 	elif _player and _player.get_parent():
 		_player.get_parent().add_child(bullet)
 
+	# Sonido del disparo del rifle
+	if _audio_audiorifle:
+		_audio_audiorifle.stop()
+		_audio_audiorifle.play()
+	else:
+		print("⚠️ No se encontró AudioRifle")
+
 	# Retroceso leve sobre el jugador
 	if _player is CharacterBody2D:
 		_player.velocity -= direction * recoil_strength
-
-	rifle_shot_fired.emit()
 
 
 func _on_cooldown_timeout() -> void:

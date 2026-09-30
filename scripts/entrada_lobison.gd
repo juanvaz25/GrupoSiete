@@ -3,7 +3,7 @@ extends Area2D
 
 var jugador_cerca := false
 
-@onready var label: Label = $LabelLobito
+@onready var label: Label = get_node_or_null("LabelGoat") if get_node_or_null("LabelGoat") != null else get_node_or_null("LabelLobito")
 
 
 func _ready() -> void:
@@ -46,7 +46,7 @@ func _on_area_exited(area: Area2D) -> void:
 
 func _process(_delta: float) -> void:
 	if jugador_cerca and Input.is_key_pressed(KEY_E):
-		print("🐺 Entrando a la sala del Lobisón...")
+		print("🐐 Entrando a la sala de The Goat...")
 		get_tree().change_scene_to_file("res://scenes/nivel_lobison.tscn")
 
 
