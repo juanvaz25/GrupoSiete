@@ -42,6 +42,12 @@ var is_dying: bool = false
 ## Embestida predictiva (utilizar en velocidad baja)
 @export var advanced_charge: bool = false
 
+@export_group("Rastro de fuego")
+@export var fire_trail_enabled: bool = false
+@export var burn_manager: Node2D
+@export var fire_radius: float = 40.0
+@export var fire_spacing: float = 24.0
+
 
 var is_charging: bool = false
 var can_attack: bool = true
@@ -49,10 +55,15 @@ var charge_direction: Vector2 = Vector2.ZERO
 var player_hit_this_charge := false
 
 
+
+
+
 @onready var hitbox: Area2D = $Hitbox
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var boss_title: Label = $BossTitle
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var fire_trail = $FireTrailEmitter
+
 
 func _ready() -> void:
 	add_to_group("enemy")
@@ -65,7 +76,7 @@ func _ready() -> void:
 	current_health = max_health
 	boss_title.visible = title_and_health_visible
 	health_bar.visible = title_and_health_visible
-
+	fire_trail.burn_manager = burn_manager
 	health_bar.max_value = max_health
 	health_bar.value = current_health
 
@@ -175,13 +186,20 @@ func start_charging() -> void:
 		charge_direction = global_position.direction_to(predicted_position)
 	else:
 		charge_direction = global_position.direction_to(player.global_position)
-
+	
+	if fire_trail_enabled:
+		fire_trail.start_fire_trail(fire_spacing)
+	
 	while elapsed < charge_duration:
 		if is_dying:
 			return
+		
+		var previous_position := global_position
 		velocity = charge_direction * charge_speed
 		move_and_slide()
-
+		if fire_trail_enabled:
+			fire_trail.burn_movement(previous_position, global_position,fire_radius)
+		
 		await get_tree().physics_frame
 
 		elapsed += get_physics_process_delta_time()
@@ -298,6 +316,7 @@ func die() -> void:
 			elif get_parent():
 				get_parent().add_child(portal)
 			print("🌀 Portal de retorno creado en: ", portal.global_position)
+
 
 	# Animación de desvanecimiento suave
 	if sprite and is_inside_tree():
