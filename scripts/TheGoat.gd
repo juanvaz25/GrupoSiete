@@ -42,15 +42,11 @@ var is_dying: bool = false
 ## Embestida predictiva (utilizar en velocidad baja)
 @export var advanced_charge: bool = false
 
-
 @export_group("Rastro de fuego")
 @export var fire_trail_enabled: bool = false
 @export var burn_manager: Node2D
 @export var fire_radius: float = 40.0
 @export var fire_spacing: float = 24.0
-
-var _fire_distance_left: float = 0.0
-
 
 
 var is_charging: bool = false
@@ -59,10 +55,15 @@ var charge_direction: Vector2 = Vector2.ZERO
 var player_hit_this_charge := false
 
 
+
+
+
 @onready var hitbox: Area2D = $Hitbox
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var boss_title: Label = $BossTitle
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var fire_trail = $FireTrailEmitter
+
 
 func _ready() -> void:
 	add_to_group("enemy")
@@ -75,7 +76,7 @@ func _ready() -> void:
 	current_health = max_health
 	boss_title.visible = title_and_health_visible
 	health_bar.visible = title_and_health_visible
-
+	fire_trail.burn_manager = burn_manager
 	health_bar.max_value = max_health
 	health_bar.value = current_health
 
@@ -186,17 +187,18 @@ func start_charging() -> void:
 	else:
 		charge_direction = global_position.direction_to(player.global_position)
 	
-	#_start_fire_trail()
+	if fire_trail_enabled:
+		fire_trail.start_fire_trail(fire_spacing)
 	
 	while elapsed < charge_duration:
 		if is_dying:
 			return
 		
-		#var previous_position := global_position
+		var previous_position := global_position
 		velocity = charge_direction * charge_speed
 		move_and_slide()
-		
-		#_burn_movement(previous_position, global_position)
+		if fire_trail_enabled:
+			fire_trail.burn_movement(previous_position, global_position,fire_radius)
 		
 		await get_tree().physics_frame
 
@@ -314,46 +316,6 @@ func die() -> void:
 			elif get_parent():
 				get_parent().add_child(portal)
 			print("🌀 Portal de retorno creado en: ", portal.global_position)
-
-
-func _can_burn() -> bool:
-	return (
-		fire_trail_enabled
-		and is_instance_valid(burn_manager)
-		and burn_manager.has_method("burn_at")
-	)
-	
-func _start_fire_trail() -> void:
-	_fire_distance_left = maxf(fire_spacing, 1.0)
-	if _can_burn():
-		burn_manager.burn_at(global_position, fire_radius)
-
-func _burn_movement(from: Vector2, to: Vector2) -> void:
-	if not _can_burn():
-		return
-
-	var distance := from.distance_to(to)
-
-	if distance <= 0.001:
-		return
-
-	var direction := from.direction_to(to)
-	var spacing := maxf(fire_spacing, 1.0)
-	var travelled := 0.0
-
-	# Completa puntos intermedios si recorrió mucha distancia
-	# durante una sola actualización.
-	while distance - travelled >= _fire_distance_left:
-		travelled += _fire_distance_left
-
-		var point := from + direction * travelled
-		burn_manager.burn_at(point, fire_radius)
-
-		_fire_distance_left = spacing
-
-	_fire_distance_left -= distance - travelled
-
-
 
 
 	# Animación de desvanecimiento suave

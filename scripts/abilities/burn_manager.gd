@@ -124,12 +124,12 @@ func burn_at(world_position: Vector2, radius: float) -> void:
 
 	_burned_sectors[sector] = true
 
-	_remove_grass(world_position, radius)
+	_remove_grass(world_position, radius - 15)
 	_create_burn_mark(world_position, radius)
 	_place_fire(fire, world_position, radius)
 	
 	
-# Busca las matas cuyo rectángulo visual toca el círculo.
+# Busca los pastos cuyo rectángulo visual toca el círculo.
 func _remove_grass(
 	world_position: Vector2,
 	radius: float

@@ -1937,6 +1937,7 @@ advanced_charge = true
 [node name="Player" parent="TileMapsLayers" unique_id=318955597 instance=ExtResource("6_pau3h")]
 position = Vector2(61, 40)
 collision_mask = 524293
+fire_grace_time = 2.0
 
 [node name="BurnManager" type="Node2D" parent="." unique_id=1297763767 node_paths=PackedStringArray("grass_layers")]
 script = ExtResource("9_icf53")
