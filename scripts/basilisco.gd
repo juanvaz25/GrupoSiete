@@ -166,7 +166,7 @@ func _ready() -> void:
 	print("🐍 Basilisco iniciado | Vida: ", current_health, "/", max_health)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(deltwwwwwwwwwwwwwwwwwwwa: float) -> void:
 	if current_state == State.DEAD:
 		return
 

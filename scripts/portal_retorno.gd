@@ -81,7 +81,7 @@ func _teleport_player() -> void:
 		return
 	_teleporting = true
 	print("🌀 Jugador entrando al portal -> Regresando a la Biblioteca...")
-	get_tree().change_scene_to_file(target_scene)
+	SceneLoader.cambiar_escena(target_scene)
 
 
 func _is_player(node: Node) -> bool:

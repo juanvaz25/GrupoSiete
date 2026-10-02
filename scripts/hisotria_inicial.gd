@@ -18,11 +18,11 @@ func _ready() -> void:
 func _siguiente() -> void:
 	# Si el jugador presiona el botón, salta la cinemática
 	video.stop()
-	get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
+	SceneLoader.cambiar_escena("res://scenes/nivel_inicial.tscn")
 
 
 func _video_terminado() -> void:
 	print("🎬 Cinemática terminada")
 	print("➡️ Pasando a nivel_inicial.tscn")
 
-	get_tree().change_scene_to_file("res://scenes/nivel_inicial.tscn")
+	SceneLoader.cambiar_escena("res://scenes/nivel_inicial.tscn")

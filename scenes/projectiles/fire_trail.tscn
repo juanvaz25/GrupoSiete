@@ -15,6 +15,7 @@ collision_layer = 0
 input_pickable = false
 monitorable = false
 script = ExtResource("1_ddjg1")
+lifetime = 32.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1221245411]
 visible = false
