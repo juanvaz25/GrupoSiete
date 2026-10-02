@@ -14,7 +14,9 @@ extends CharacterBody2D
 @export var title_and_health_visible: bool = true
 ## Vida del enemigo
 @export var max_health: float = 100.0
+## Velocidad de movimiento base
 @export var speed: float = 700.0
+## Distancia a la que detecta al player
 @export var chase_distance: float = 280.0
 ## Daño al tocar al personaje (0.5 según especificación).
 @export var contact_damage: float = 0.5
@@ -27,12 +29,17 @@ var current_health: float
 var player: CharacterBody2D = null
 var is_dying: bool = false
 
-#Variables de enbestida
+
+@export_group("Habilidad: Embestida")
+## Velocidad cuando ejecuta Embestida
 @export var charge_speed: float = 1100.0
+## Cuanto tiempo dura la Embestida
 @export var charge_duration: float = 0.8
+## Cuanto tarda en prepararse para Embestir
 @export var charge_prepare_time: float = 0.5
 ## Cooldown antes de poder volver a Embestir
 @export var charge_cooldown: float = 2.0
+## Embestida predictiva (utilizar en velocidad baja)
 @export var advanced_charge: bool = false
 
 @export_group("Rastro de fuego")
@@ -52,7 +59,8 @@ var player_hit_this_charge := false
 
 
 @onready var hitbox: Area2D = $Hitbox
-@onready var health_bar: ProgressBar = $HealBarr
+@onready var health_bar: ProgressBar = $HealthBar
+@onready var boss_title: Label = $BossTitle
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var fire_trail = $FireTrailEmitter
 
@@ -64,7 +72,7 @@ func _ready() -> void:
 		add_to_group("boss")
 
 	sprite.play("default")
-	
+	boss_title.text = title
 	current_health = max_health
 	boss_title.visible = title_and_health_visible
 	health_bar.visible = title_and_health_visible
@@ -114,7 +122,6 @@ func _physics_process(_delta: float) -> void:
 			start_charge()
 
 
-# =========================
 # RECIBIR DAÑO
 func take_damage(amount: float) -> void:
 	if is_dying:

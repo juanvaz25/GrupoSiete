@@ -225,7 +225,7 @@ func _on_dash_finished() -> void:
 		if input_direction != Vector2.ZERO:
 			_sprite.play(Utility.get_direction("walk",input_direction))
 		else:
-			_sprite.play("default")
+			_sprite.play("idle")
 
 	if _i_frame_timer.is_stopped():
 		is_invulnerable = false
