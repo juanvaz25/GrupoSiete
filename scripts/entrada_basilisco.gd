@@ -47,7 +47,8 @@ func _on_area_exited(area: Area2D) -> void:
 func _process(_delta: float) -> void:
 	if jugador_cerca and Input.is_key_pressed(KEY_E):
 		print("🐍 Entrando a la sala del Basilisco...")
-		get_tree().change_scene_to_file("res://scenes/nivel_basilisco.tscn")
+		
+		SceneLoader.cambiar_escena("res://scenes/nivel_basilisco.tscn")
 
 
 func _is_player(node: Node) -> bool:

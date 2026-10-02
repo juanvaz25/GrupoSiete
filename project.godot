@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GrupoSiete"
-run/main_scene="uid://nxehqtg3ci1o"
+run/main_scene="uid://c4ylu4h8w0h6q"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -150,7 +150,9 @@ func take_damage(amount: float) -> void:
 
 	if current_health <= 0.0:
 		is_invulnerable = true
-		call_deferred("_expel_from_room")
+		#call_deferred("_expel_from_room")
+		SceneLoader.cambiar_escena("res://scenes/nivel_inicial.tscn")
+		
 	else:
 		_start_invulnerability(hit_i_frames)
 
