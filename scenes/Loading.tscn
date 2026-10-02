@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://nxehqtg3ci1o"]
+
+[ext_resource type="Script" uid="uid://yx3a5hqy8trm" path="res://scripts/dummy/loading.gd" id="1_15qtj"]
+[ext_resource type="Script" uid="uid://c7cg5dqns8gjm" path="res://scripts/ammo_hud.gd" id="1_gnwrg"]
+[ext_resource type="Texture2D" uid="uid://bsc162d7dtcwl" path="res://assets/AssetsHUD/tambor1.png" id="2_15qtj"]
+[ext_resource type="Texture2D" uid="uid://dog7qkrp5lwol" path="res://assets/AssetsHUD/tambor2.png" id="3_arnw2"]
+[ext_resource type="Texture2D" uid="uid://di77u8kklrtd" path="res://assets/AssetsHUD/tambor3.png" id="4_57qoh"]
+[ext_resource type="Texture2D" uid="uid://bk4t531coedp3" path="res://assets/AssetsHUD/tambor4.png" id="5_j6ydc"]
+[ext_resource type="Texture2D" uid="uid://ciabskwy5ql3y" path="res://assets/AssetsHUD/tambor5.png" id="6_o5smw"]
+[ext_resource type="Texture2D" uid="uid://38vjhcwmgy0c" path="res://assets/AssetsHUD/tambor6.png" id="7_l03vu"]
+[ext_resource type="Texture2D" uid="uid://jqvxs82wqqvw" path="res://assets/AssetsHUD/tambor7.png" id="8_6clan"]
+[ext_resource type="Texture2D" uid="uid://d0u2jypcm5kgs" path="res://assets/AssetsHUD/TAmbor.png" id="9_ttv52"]
+
+[node name="Loading" type="Node2D" unique_id=1657045235]
+script = ExtResource("1_15qtj")
+
+[node name="AmmoHUD" type="CanvasLayer" parent="." unique_id=1673610020]
+script = ExtResource("1_gnwrg")
+tambor_1 = ExtResource("2_15qtj")
+tambor_2 = ExtResource("3_arnw2")
+tambor_3 = ExtResource("4_57qoh")
+tambor_4 = ExtResource("5_j6ydc")
+tambor_5 = ExtResource("6_o5smw")
+tambor_6 = ExtResource("7_l03vu")
+tambor_7 = ExtResource("8_6clan")
+
+[node name="Cylinder" type="Control" parent="AmmoHUD" unique_id=581216461]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -478.0
+offset_top = -262.0
+offset_right = -438.0
+offset_bottom = -222.0
+
+[node name="RevolverCylinder" type="TextureRect" parent="AmmoHUD/Cylinder" unique_id=326499667]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 986.0
+offset_top = 494.0
+offset_right = 1096.0
+offset_bottom = 604.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_ttv52")
+expand_mode = 1
