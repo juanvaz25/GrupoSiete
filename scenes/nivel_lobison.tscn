@@ -1861,10 +1861,10 @@ charge_speed = 2500.0
 charge_duration = 0.6
 charge_prepare_time = 1.5
 charge_cooldown = 3.0
-fire_trail_enabled = true
 burn_manager = NodePath("../../BurnManager")
+death_activation = 5
 
-[node name="Goat7" parent="TileMapsLayers" unique_id=726003926 instance=ExtResource("8_m3sjd")]
+[node name="Goat7" parent="TileMapsLayers" unique_id=726003926 node_paths=PackedStringArray("father") instance=ExtResource("8_m3sjd")]
 position = Vector2(-71, -3286)
 scale = Vector2(0.4, 0.4)
 collision_mask = 7
@@ -1873,12 +1873,13 @@ title = "Hijo del Destino"
 title_and_health_visible = false
 max_health = 12.0
 speed = 600.0
+father = NodePath("../Goat")
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
 advanced_charge = true
 
-[node name="Goat2" parent="TileMapsLayers" unique_id=1584783754 instance=ExtResource("8_m3sjd")]
+[node name="Goat2" parent="TileMapsLayers" unique_id=1584783754 node_paths=PackedStringArray("father") instance=ExtResource("8_m3sjd")]
 position = Vector2(-815.99994, -2675)
 scale = Vector2(0.4, 0.4)
 collision_mask = 7
@@ -1887,12 +1888,13 @@ title = "Hijo del Destino"
 title_and_health_visible = false
 max_health = 12.0
 speed = 600.0
+father = NodePath("../Goat")
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
 advanced_charge = true
 
-[node name="Goat5" parent="TileMapsLayers" unique_id=959658841 instance=ExtResource("8_m3sjd")]
+[node name="Goat5" parent="TileMapsLayers" unique_id=959658841 node_paths=PackedStringArray("father") instance=ExtResource("8_m3sjd")]
 position = Vector2(-292, -2626)
 scale = Vector2(0.4, 0.4)
 collision_mask = 7
@@ -1901,12 +1903,13 @@ title = "Hijo del Destino"
 title_and_health_visible = false
 max_health = 12.0
 speed = 600.0
+father = NodePath("../Goat")
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
 advanced_charge = true
 
-[node name="Goat6" parent="TileMapsLayers" unique_id=2111517644 instance=ExtResource("8_m3sjd")]
+[node name="Goat6" parent="TileMapsLayers" unique_id=2111517644 node_paths=PackedStringArray("father") instance=ExtResource("8_m3sjd")]
 position = Vector2(-780.99994, -3156)
 scale = Vector2(0.4, 0.4)
 collision_mask = 7
@@ -1915,12 +1918,13 @@ title = "Hijo del Destino"
 title_and_health_visible = false
 max_health = 12.0
 speed = 600.0
+father = NodePath("../Goat")
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
 advanced_charge = true
 
-[node name="Goat3" parent="TileMapsLayers" unique_id=1520618760 instance=ExtResource("8_m3sjd")]
+[node name="Goat3" parent="TileMapsLayers" unique_id=1520618760 node_paths=PackedStringArray("father") instance=ExtResource("8_m3sjd")]
 position = Vector2(-550, -3047)
 scale = Vector2(0.4, 0.4)
 collision_mask = 7
@@ -1929,6 +1933,7 @@ title = "Hijo del Destino"
 title_and_health_visible = false
 max_health = 12.0
 speed = 600.0
+father = NodePath("../Goat")
 charge_speed = 900.0
 charge_duration = 0.4
 charge_prepare_time = 0.8
