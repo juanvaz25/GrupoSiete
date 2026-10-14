@@ -20,6 +20,10 @@ extends CharacterBody2D
 @export var chase_distance: float = 280.0
 ## Daño al tocar al personaje (0.5 según especificación).
 @export var contact_damage: float = 0.5
+##FATHER GOAT
+@export var father: CharacterBody2D
+
+
 
 @export_group("Portal de Retorno")
 ## Escena del portal de retorno a la biblioteca tras vencer al jefe.
@@ -47,7 +51,7 @@ var is_dying: bool = false
 @export var burn_manager: Node2D
 @export var fire_radius: float = 40.0
 @export var fire_spacing: float = 24.0
-
+@export var death_activation: int = 3
 
 var is_charging: bool = false
 var can_attack: bool = true
@@ -259,6 +263,16 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 # =========================
 # MUERTE Y PORTAL DE RETORNO
 # =========================
+
+func death_child() -> void:
+	death_activation -= 1;
+	
+	if death_activation <= 0:
+		fire_trail_enabled = true
+	
+	
+	
+	
 func die() -> void:
 	if is_dying:
 		return
@@ -316,7 +330,9 @@ func die() -> void:
 			elif get_parent():
 				get_parent().add_child(portal)
 			print("🌀 Portal de retorno creado en: ", portal.global_position)
-
+	else:
+		if father.has_method("death_child"):
+			father.death_child();
 
 	# Animación de desvanecimiento suave
 	if sprite and is_inside_tree():
